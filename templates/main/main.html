@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+{% comment %}<form action="/main" method="post">{% endcomment %}
+    {% comment %}<form action="/users" method="post">{% endcomment %}
+    <form action="index/users" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <fieldset>
+        <legend>
+            Поля ввода данных пользователя
+        </legend>
+            <input type="text" name="username" placeholder="Введите имя" >
+            <input type="text" name="user_email" placeholder="Введите емаил" >
+            <input type="password" name="user_pass" placeholder="Введите пароль" >
+            <input type="hidden" value="1" name="role">
+            <input value="Отправить" type="submit" >
+    </fieldset>
+</form>
+</body>
+</html>
