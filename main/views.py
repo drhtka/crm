@@ -53,7 +53,7 @@ class LogginView(TemplateView):
     def post(self, request):
         import hashlib
         hashed_password = hashlib.md5(request.POST.get('pass').encode())
-        final_ph = hashed_password.hexdigest()# 25 min
+        final_ph = hashed_password.hexdigest()
         find_user = Users.objects.filter(user_email=request.POST.get('loggin'), user_pass=final_ph).values('user_email')
 
         if len(find_user) > 0:
