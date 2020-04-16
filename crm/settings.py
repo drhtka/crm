@@ -147,3 +147,17 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 
 )
+#settings djano session
+#https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-SESSION_ENGINE
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+#https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/%D0%A1%D0%B5%D1%81%D1%81%D0%B8%D0%B8
+SESSION_SAVE_EVERY_REQUEST = True
+
+#pass hash
+#https://docs.djangoproject.com/en/2.2/topics/auth/passwords/
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]

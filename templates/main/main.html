@@ -10,17 +10,17 @@
 <body>
 {% comment %}<form action="/main" method="post">{% endcomment %}
     {% comment %}<form action="/users" method="post">{% endcomment %}
-    <form action="index/users" method="post">
+    <form action="/users" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <fieldset>
         <legend>
             Поля ввода данных пользователя
         </legend>
-            <input type="text" name="username" placeholder="Введите имя" >
-            <input type="text" name="user_email" placeholder="Введите емаил" >
-            <input type="password" name="user_pass" placeholder="Введите пароль" >
-            <input type="hidden" value="1" name="role">
+            <p><input type="text" name="username" placeholder="Введите имя" ></p>
+            <p><input type="text" name="user_email" placeholder="Введите емаил" ></p>
+            <p><input type="password" name="user_pass" placeholder="Введите пароль" ></p>
+            <p><input type="hidden" value="1" name="role"></p>
             <input value="Отправить" type="submit" >
     </fieldset>
 </form>

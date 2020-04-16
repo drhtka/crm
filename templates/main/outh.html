@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>loggin</title>
+
+        <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <legend>
+            Поля ввода авторизация
+        </legend>
+            <p>Логин: <input type="text" name="loggin" placeholder="" ></p>
+            <p>Пароль: <input type="text" name="pass" placeholder="" ></p>
+            <input value="Отправить" type="submit" >
+
+</form>
+    <p><a href="{% url 'main' %}">main</a></p>
+</body>
+</head>
+<body>
+
+</body>
+</html>

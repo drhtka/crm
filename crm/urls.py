@@ -16,11 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 #from main.views import MainPageView
-
+#from main.views import LogginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', include('main.urls', namespace='index')),
+    path('', include('main.urls')),
+#    path('loggin/', LogginView.as_view(), name='loggin'),
+
+
     #path('main/', MainPageView.as_view(), name='main'),
     #url(r'^detailpost', DetailPostView.as_view(), name='detailpost'),
 ]
