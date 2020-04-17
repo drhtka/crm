@@ -153,11 +153,11 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 #https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/%D0%A1%D0%B5%D1%81%D1%81%D0%B8%D0%B8
 SESSION_SAVE_EVERY_REQUEST = True
 
-#pass hash
+#pass hash argon
 #https://docs.djangoproject.com/en/2.2/topics/auth/passwords/
-PASSWORD_HASHERS = [
+"""PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-]
+]"""

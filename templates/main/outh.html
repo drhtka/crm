@@ -5,7 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>loggin</title>
+    <title>Авторизация</title>
+    <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
 
         <form method="post">
     {% csrf_token %}
@@ -13,12 +14,12 @@
         <legend>
             Поля ввода авторизация
         </legend>
-            <p>Логин: <input type="text" name="loggin" placeholder="" ></p>
-            <p>Пароль: <input type="text" name="pass" placeholder="" ></p>
+
+            <p>Логин: <input type="text" name="loggin" placeholder="email@example.com" required autofocus></p>
+            <p>Пароль: <input type="text" name="pass" placeholder="password" required></p>
             <input value="Отправить" type="submit" >
 
 </form>
-    <p><a href="{% url 'main' %}">main</a></p>
 </body>
 </head>
 <body>

@@ -5,23 +5,32 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Главная</title>
 </head>
 <body>
 {% comment %}<form action="/main" method="post">{% endcomment %}
     {% comment %}<form action="/users" method="post">{% endcomment %}
+<p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
     <form action="/users" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <fieldset>
         <legend>
-            Поля ввода данных пользователя
+            Поля ввода данных пользователя для регистрации
         </legend>
-            <p><input type="text" name="username" placeholder="Введите имя" ></p>
-            <p><input type="text" name="user_email" placeholder="Введите емаил" ></p>
-            <p><input type="password" name="user_pass" placeholder="Введите пароль" ></p>
-            <p><input type="hidden" value="1" name="role"></p>
-            <input value="Отправить" type="submit" >
+            <p><input type="text" name="username" placeholder="Введите имя" required autofocus></p>
+            <p><input type="text" name="user_email" placeholder="Введите емаил" required></p>
+            <p><input type="password" name="user_pass" placeholder="Введите пароль" required></p>
+            {% comment %}<p><input type="hidden" value="1" name="role"></p>{% endcomment %}
+            <p><select type="number" name="role" required>
+                    <option disabled selected value="" >Выберите</option>
+                    <option value="1">Администратор</option>
+                    <option value="2">Бухгалтер</option>
+                    <option value="3">Менеджер</option>
+                    <option value="4">Оператор интернет</option>
+                    <option value="5">Оператор ктв</option>
+                  </select></p>
+              <input value="Регистрация" type="submit" >
     </fieldset>
 </form>
 </body>
