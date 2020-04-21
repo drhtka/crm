@@ -17,7 +17,7 @@
 <form action="{% url 'lk_task' %}" method="post">
      {% csrf_token %}
     {{ form.as_p }}
-    <p><input type="hidden" name="id_task"></input></p>
+    {% comment %}<p><input type="number" name="id_task"></input></p>{% endcomment %}
     <p><input type="text" name="title_task" maxlength="30"></input></p>
     <p><textarea type="text" name="desk_task" maxlength="300" cols="31" rows="5"></textarea></p>
       <p><select type="number" name="role" required>
@@ -28,5 +28,9 @@
 
     {% endfor %} </select></p><input value="Выставить задачу" type="submit" >
 </form>
+{% for datas in data %}
+<div><span>{{ datas.0 }}</span></div>
+<div><span>{{ datas.1 }}</span></div>
+{% endfor %}
 </body>
 </html>

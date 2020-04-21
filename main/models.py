@@ -22,7 +22,7 @@ class Users(models.Model):
 
 
 class CreatreTasks(models.Model):
-    id = models.IntegerField(primary_key=True, auto_created=True)
+    id = models.AutoField(primary_key=True, auto_created=True, null=False)
     id_users = models.IntegerField(blank=True, null=True)
     inputtitle = models.CharField(max_length=30, blank=True, null=True)
     textarea = models.TextField(max_length=300, blank=True, null=True)

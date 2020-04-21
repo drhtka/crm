@@ -53,19 +53,22 @@ class LkView(View):
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
         if user_role == 1:
+            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Администратор')
             layout = 'lk_admin.html'
         if user_role == 2:
+            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Бухгалтер')
             layout = 'lk_buh.html'
         if user_role == 3:
+            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Менеджер')
             layout = 'lk_manager.html'
         if user_role == 4:
+            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Оператор интернет')
             layout = 'lk_oper_inet.html'
         if user_role == 5:
-
             data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print(data)
             print('Оператор ктв')
@@ -99,10 +102,10 @@ class LogginView(TemplateView):
         return render(request, 'main/outh.html')
 
 class LkTaskView(View):
-    # запись в базу поставлененой задачи
+    # запись в базу поставлененой задачи  id=request.POST.get('id_task'),
     def post(self, request):
-        test_create = CreatreTasks(id=request.POST.get('id_task'), id_users=request.POST.get('role'), inputtitle=request.POST.get('title_task'), textarea=request.POST.get('desk_task'))
-        #test_create.save()
+        test_create = CreatreTasks(id_users=request.POST.get('role'), inputtitle=request.POST.get('title_task'), textarea=request.POST.get('desk_task'))
+        test_create.save()
         print('test_create')
         print(test_create)
         return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8005/lk/">Личный кабинет</a>')
