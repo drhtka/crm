@@ -3,7 +3,7 @@
 
 #from django.contrib import admin
 from django.urls import path
-from main.views import MainPageView, UsersSiteView, LogginView, LkView
+from main.views import MainPageView, UsersSiteView, LogginView, LkView, LkTaskView
 #app_name = 'index'
 
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('users', UsersSiteView.as_view(), name='users'),
     path('loggin/', LogginView.as_view(), name='loggin'),
     path('lk/', LkView.as_view(), name='lk'),
+    path('lk_task/', LkTaskView.as_view(), name='lk_task'),
 ]

@@ -11,6 +11,8 @@
 {% comment %}<form action="/main" method="post">{% endcomment %}
     {% comment %}<form action="/users" method="post">{% endcomment %}
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
+<p><a href="{% url 'lk' %}"><font color="blue">Личный кабинет</font></a></p>
+<p><a href="{% url 'lk_task' %}"><font color="blue">Ли к</font></a></p>
     <form action="/users" method="post">
     {% csrf_token %}
     {{ form.as_p }}
@@ -32,6 +34,11 @@
                   </select></p>
               <input value="Регистрация" type="submit" >
     </fieldset>
+</form>
+<form action="{% url 'lk' %}" method="post">
+     {% csrf_token %}
+    {{ form.as_p }}
+    <button>Выход</button>
 </form>
 </body>
 </html>

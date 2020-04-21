@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ lk_email }}</title>
 </head>
 <body>
 <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
@@ -14,5 +14,9 @@
     {{ form.as_p }}
     <button>Выход</button>
 </form>
+{% for datas in data %}
+<div><span>{{ datas.0 }}</span>
+<span>{{ datas.1 }}</span> </div>
+{% endfor %}
 </body>
 </html>

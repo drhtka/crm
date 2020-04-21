@@ -2,12 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ lk_email }}</title>
 </head>
 <body>
-privet admin
-<form action="/lk" method="post">
-    <button>quit</button>
+<p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
+<p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
+Вы вошли в личный кабинет
+<p>Ваш логин: {{ lk_email }}</p>
+<form action="{% url 'lk' %}" method="post">
+     {% csrf_token %}
+    {{ form.as_p }}
+    <button>Выход</button>
+</form>
+<form action="{% url 'lk_task' %}" method="post">
+     {% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="hidden" name="id_task"></input></p>
+    <p><input type="text" name="title_task" maxlength="30"></input></p>
+    <p><textarea type="text" name="desk_task" maxlength="300" cols="31" rows="5"></textarea></p>
+      <p><select type="number" name="role" required>
+      <option disabled selected value="" >Выберите </option>
+          {% for task_list_users_s in task_list_users %}
+                    <option value="{{ task_list_users_s.1 }}">{{ task_list_users_s.0 }}</option>
+
+
+    {% endfor %} </select></p><input value="Выставить задачу" type="submit" >
 </form>
 </body>
 </html>

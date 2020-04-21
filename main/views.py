@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 # -*- coding: utf-8 -*-
 # Create your views here.
 from django.views.generic.base import View, TemplateView
-from main.models import Users
+from main.models import Users, CreatreTasks
 
 class MainPageView(View):
     # page registration
@@ -43,12 +43,14 @@ class LkView(View):
     def get(self, request):
         user_lk = (request.session['my_list'])
         print(user_lk)
-        lk_email = Users.objects.filter(user_email=user_lk).values_list('username', 'role')
+        lk_email = Users.objects.filter(user_email=user_lk).values_list('username', 'role', 'id')
         print(lk_email)
         #print(lk_email[0]['username'])
-        print(lk_email[0][0], lk_email[0][1])
+        #print(lk_email[0][0], lk_email[0][1])
         user_name = lk_email[0][0]
         user_role = lk_email[0][1]
+        user_id = lk_email[0][2]
+        data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
         if user_role == 1:
             print('Администратор')
@@ -57,16 +59,21 @@ class LkView(View):
             print('Бухгалтер')
             layout = 'lk_buh.html'
         if user_role == 3:
-            print('Аmenag')
-            layout = 'lk_buh.html'
+            print('Менеджер')
+            layout = 'lk_manager.html'
         if user_role == 4:
-            print('oper')
-            layout = 'lk_buh.html'
+            print('Оператор интернет')
+            layout = 'lk_oper_inet.html'
         if user_role == 5:
-            print('oper2')
-            layout = 'lk_buh.html'
 
-        return render(request, 'main/' + layout, context={'lk_email': user_name, 'user_role': user_role})
+            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
+            print(data)
+            print('Оператор ктв')
+            layout = 'lk_oper_ktv.html'
+        # выбераем имя и id  для передачи в шаблон и создания задачи динамически
+        task_list_users = Users.objects.values_list('username', 'id')
+
+        return render(request, 'main/' + layout, context={'lk_email': user_name, 'user_role': user_role, 'task_list_users': task_list_users, 'data': data})
 
     def post(self, request):
         request.session['my_list'] = []
@@ -90,6 +97,15 @@ class LogginView(TemplateView):
         #request.session.modified = True
 
         return render(request, 'main/outh.html')
+
+class LkTaskView(View):
+    # запись в базу поставлененой задачи
+    def post(self, request):
+        test_create = CreatreTasks(id=request.POST.get('id_task'), id_users=request.POST.get('role'), inputtitle=request.POST.get('title_task'), textarea=request.POST.get('desk_task'))
+        #test_create.save()
+        print('test_create')
+        print(test_create)
+        return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8005/lk/">Личный кабинет</a>')
 
 class RolesView(View):
     pass

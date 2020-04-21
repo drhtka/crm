@@ -17,5 +17,17 @@ class Users(models.Model):
     #test2 = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
+        #managed = True
         db_table = 'users'
+
+
+class CreatreTasks(models.Model):
+    id = models.IntegerField(primary_key=True, auto_created=True)
+    id_users = models.IntegerField(blank=True, null=True)
+    inputtitle = models.CharField(max_length=30, blank=True, null=True)
+    textarea = models.TextField(max_length=300, blank=True, null=True)
+
+
+    class Meta:
+        #managed = True
+        db_table = 'createtask'
