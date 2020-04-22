@@ -1,0 +1,34 @@
+<table border="2">
+<tbody>
+    <tr>
+        <td>Имя пользователя</td>
+        <td>Емаил</td>
+        <td>Роль</td>
+    </tr>
+    {% for roles_edit_s in roles_edit %}
+        <form action="{% url 'roless' %}" method="get">
+
+        <input type="hidden" value="{{ roles_edit_s.0.2 }}" name="user_hid">
+    <tr>
+        <td>{{ roles_edit_s.0 }}</td>
+        <td>{{ roles_edit_s.1 }}</td>
+    <td><select name="rolless">
+
+        {% for rolis_list_s in rolis_list %}
+        {% comment %} {% csrf_token %}
+             {{ form.as_p }}
+             <option value="{{ rolis_list_s.0 }}">{{ roles_list_s.1 }}</option>
+        {% endcomment %}
+             <option value="{{ rolis_list_s.0.0 }}">{{ roles_list_s.0.1 }}</option>
+        {% endfor %}
+        </select>
+    </td>
+
+    </tr>
+        </form>
+    {% endfor %}
+</tbody>
+</table>
+{{ roles_edit.0.2  }}- edit
+{{ rolis_list.0.0 }}
+{{ rolis_list.0.1 }}

@@ -50,26 +50,26 @@ class LkView(View):
         user_name = lk_email[0][0]
         user_role = lk_email[0][1]
         user_id = lk_email[0][2]
+        print('user_id')
+        print(user_id)
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
+        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea')
+        print('data')
+        print(data)
         if user_role == 1:
-            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Администратор')
             layout = 'lk_admin.html'
         if user_role == 2:
-            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Бухгалтер')
             layout = 'lk_buh.html'
         if user_role == 3:
-            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Менеджер')
             layout = 'lk_manager.html'
         if user_role == 4:
-            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print('Оператор интернет')
             layout = 'lk_oper_inet.html'
         if user_role == 5:
-            data = CreatreTasks.objects.filter(id=user_id).values_list('inputtitle', 'textarea')
             print(data)
             print('Оператор ктв')
             layout = 'lk_oper_ktv.html'
@@ -108,10 +108,28 @@ class LkTaskView(View):
         test_create.save()
         print('test_create')
         print(test_create)
-        return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8005/lk/">Личный кабинет</a>')
+        return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
 
 class RolesView(View):
-    pass
+
+    def get(self, request):
+        roles_edit = Users.objects.all().values_list('username', 'user_email', 'id')
+        #print(roles_edit)
+        rolis_list = Users.objects.values_list('id', 'username')
+        #print('rolis_list')
+        #print(rolis_list)
+        return render(request, 'main/roles.html', {'roles_edit': roles_edit, 'rolis_list': rolis_list})
+
+class RolesRosView(View):
+    template_name = 'main/roles.html'
+    print('RolessView')
+    def get(self, request):
+        print('user_hidddd')
+        print(request.GET.get('rolless'))
+        print(request.GET.get('user_hid'))
+        print('user_hid')
+        return HttpResponse('role')
+    
 """  class LkView(View):
     def get(self, request):
         return render(request, 'main/lk.html')

@@ -26,7 +26,7 @@ class CreatreTasks(models.Model):
     id_users = models.IntegerField(blank=True, null=True)
     inputtitle = models.CharField(max_length=30, blank=True, null=True)
     textarea = models.TextField(max_length=300, blank=True, null=True)
-
+    created = models.DateField('Дата создания', auto_now_add=True, )
 
     class Meta:
         #managed = True
