@@ -115,12 +115,23 @@ class RolesView(View):
     def get(self, request):
         roles_edit = Users.objects.all().values_list('username', 'user_email', 'id')
         #print(roles_edit)
-        rolis_list = Users.objects.values_list('id', 'username')
+        rolis_list = Users.objects.values_list('role', 'username')
         #print('rolis_list')
         #print(rolis_list)
         return render(request, 'main/roles.html', {'roles_edit': roles_edit, 'rolis_list': rolis_list})
 
-class RolesRosView(View):
+    def post(self, request):
+        #print('user_hidddd')
+        #print(request.POST.get('rolless'))
+        id_up = request.POST.get('rolless')
+        #print(request.POST.get('user_hid'))
+        email_up = request.POST.get('user_hid')
+        print('user_hid')
+        update_user = Users.objects.filter(user_email=email_up).update(role=id_up)
+        print(update_user)
+        return redirect('/roles/')
+
+"""class RolesRosView(View):
     template_name = 'main/roles.html'
     print('RolessView')
     def get(self, request):
@@ -128,7 +139,7 @@ class RolesRosView(View):
         print(request.GET.get('rolless'))
         print(request.GET.get('user_hid'))
         print('user_hid')
-        return HttpResponse('role')
+        return HttpResponse('role')"""
     
 """  class LkView(View):
     def get(self, request):

@@ -6,29 +6,34 @@
         <td>Роль</td>
     </tr>
     {% for roles_edit_s in roles_edit %}
-        <form action="{% url 'roless' %}" method="get">
-
-        <input type="hidden" value="{{ roles_edit_s.0.2 }}" name="user_hid">
+        <form action="{% url 'roles' %}" method="post">
+               {% csrf_token %}
+             {{ form.as_p }}
+        <input type="hidden" value="{{ roles_edit_s.1 }}" name="user_hid">
     <tr>
         <td>{{ roles_edit_s.0 }}</td>
         <td>{{ roles_edit_s.1 }}</td>
-    <td><select name="rolless">
+
+        <td>hello<select name="rolless">
 
         {% for rolis_list_s in rolis_list %}
-        {% comment %} {% csrf_token %}
-             {{ form.as_p }}
+        {% comment %}
              <option value="{{ rolis_list_s.0 }}">{{ roles_list_s.1 }}</option>
         {% endcomment %}
-             <option value="{{ rolis_list_s.0.0 }}">{{ roles_list_s.0.1 }}</option>
+             <option value="{{ rolis_list_s.0 }}">{{ rolis_list_s.1 }}</option>
+
         {% endfor %}
         </select>
+        <p><input type="submit" value="Отправить"></p>
     </td>
-
     </tr>
         </form>
     {% endfor %}
 </tbody>
 </table>
-{{ roles_edit.0.2  }}- edit
+<p>{{ roles_edit.0.0  }}- edit</p>
+<p>{{ roles_edit.0.1  }}- edit</p>
+<p>{{ roles_edit.0.2  }}- edit</p>
 {{ rolis_list.0.0 }}
 {{ rolis_list.0.1 }}
+{{ rolis_list.0.2 }}
