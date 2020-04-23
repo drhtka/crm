@@ -13,14 +13,12 @@ class Users(models.Model):
     user_email = models.CharField(max_length=30, blank=True, null=True)
     user_pass = models.CharField(max_length=30, blank=True, null=True)
     role = models.IntegerField(blank=True, null=True)
-    roles = models
     #test = models.TextField(max_length=255, blank=True, null=True)
     #test2 = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         #managed = True
         db_table = 'users'
-
 
 class CreatreTasks(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True, null=False)
@@ -32,3 +30,7 @@ class CreatreTasks(models.Model):
     class Meta:
         #managed = True
         db_table = 'createtask'
+
+class Roles(models.Model):
+    id_roles = models.AutoField(primary_key=True, auto_created=True)
+    roles = models.TextField(max_length=30, blank=True)

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 # -*- coding: utf-8 -*-
 # Create your views here.
 from django.views.generic.base import View, TemplateView
-from main.models import Users, CreatreTasks
+from main.models import Users, CreatreTasks, Roles
 
 class MainPageView(View):
     # page registration
@@ -115,7 +115,7 @@ class RolesView(View):
     def get(self, request):
         roles_edit = Users.objects.all().values_list('username', 'user_email', 'id')
         #print(roles_edit)
-        rolis_list = Users.objects.values_list('role', 'username')
+        rolis_list = Roles.objects.values_list('id_roles', 'roles')
         #print('rolis_list')
         #print(rolis_list)
         return render(request, 'main/roles.html', {'roles_edit': roles_edit, 'rolis_list': rolis_list})
@@ -130,6 +130,12 @@ class RolesView(View):
         update_user = Users.objects.filter(user_email=email_up).update(role=id_up)
         print(update_user)
         return redirect('/roles/')
+
+class CommentView(View):
+    def post(self, request):
+        print(request.POST.get('comment'))
+        return redirect('/lk/')
+
 
 """class RolesRosView(View):
     template_name = 'main/roles.html'

@@ -32,6 +32,12 @@
 {% for datas in data %}
 <div><span>{{ datas.0 }}</span></div>
 <div><span>{{ datas.1 }}</span></div>
+    <form action="{% url 'comment' %}" method="post">
+     {% csrf_token %}
+    {{ form.as_p }}
+    <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
+    </p><input value="Комментарий к задаче" type="submit">
+</form>
 {% endfor %}
 </body>
 </html>
