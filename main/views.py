@@ -106,8 +106,9 @@ class LkTaskView(View):
     def post(self, request):
         test_create = CreatreTasks(id_users=request.POST.get('role'), inputtitle=request.POST.get('title_task'), textarea=request.POST.get('desk_task'))
         test_create.save()
-        print('test_create')
-        print(test_create)
+        #print('test_create')
+        #print(test_create)
+
         return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
 
 class RolesView(View):

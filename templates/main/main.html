@@ -12,7 +12,6 @@
     {% comment %}<form action="/users" method="post">{% endcomment %}
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
 <p><a href="{% url 'lk' %}"><font color="blue">Личный кабинет</font></a></p>
-<p><a href="{% url 'lk_task' %}"><font color="blue">Личный кабинет</font></a></p>
 <p><a href="{% url 'roles' %}"><font color="blue">Сменить роль</font></a></p>
     <form action="/users" method="post">
     {% csrf_token %}

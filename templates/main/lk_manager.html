@@ -25,6 +25,21 @@
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
     </p><input value="Комментарий к задаче" type="submit">
 </form>
+        <form action="/users" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <legend>
+            Статус задачи
+        </legend>
+
+            <p><select type="number" name="role" required>
+                    <option disabled selected value="" >Статус задачи</option>
+                    <option value="1">В работе</option>
+                    <option value="2">Закончена</option>
+                    <option value="3">Отменена</option>
+                  </select></p>
+              <input value="Подтвердить" type="submit" >
+        </form>
 {% endfor %}
-</body>
+    </body>
 </html>
