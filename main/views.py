@@ -54,7 +54,7 @@ class LkView(View):
         print(user_id)
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
-        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea')
+        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id')
         print('data')
         print(data)
         if user_role == 1:
@@ -111,7 +111,7 @@ class LkTaskView(View):
         return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
 
 class RolesView(View):
-
+    #смена ролей на шаблоне из выпадающего списка
     def get(self, request):
         roles_edit = Users.objects.all().values_list('username', 'user_email', 'id')
         #print(roles_edit)
@@ -126,14 +126,22 @@ class RolesView(View):
         id_up = request.POST.get('rolless')
         #print(request.POST.get('user_hid'))
         email_up = request.POST.get('user_hid')
-        print('user_hid')
+        #print('user_hid')
         update_user = Users.objects.filter(user_email=email_up).update(role=id_up)
-        print(update_user)
+        #print(update_user)
         return redirect('/roles/')
 
 class CommentView(View):
+    # отправка комента в базу
     def post(self, request):
-        print(request.POST.get('comment'))
+        print('mayak')
+        #print(request.POST.get('comment'))
+        #print(request.POST.get('user_id'))
+        #print(request.POST.get('task_id'))
+        CreatreTasks.objects.filter(id=request.POST.get('task_id')).update(answear=request.POST.get('comment'))
+        #print('com_create')
+        #print(com_create)
+        #com_create.save()
         return redirect('/lk/')
 
 
