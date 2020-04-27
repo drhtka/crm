@@ -3,6 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ lk_email }}</title>
+        <style>
+    .task_work {
+    color: green; /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .task_end {
+    color: rgba(7, 72, 241, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .task_cancellation {
+    color: rgba(241, 7, 116, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .status_task{
+    color: rgba(69, 36, 206, 0.99); /* Цвет текста */
+    font-size: 20px; /* Размер текста */
+    font-weight: bold; /* Жирное начертание */
+    text-shadow: 5px 2px 4px grey; /* Текст текста */
+
+   }
+   .coment_task{
+    color: blue; /* Цвет текста */
+    font-size: 20px; /* Размер текста */
+    text-shadow: 5px 2px 4px grey; /* Текст текста */
+   }
+    </style>
 </head>
 <body>
 <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
@@ -17,28 +43,38 @@
 {% for datas in data %}
 <div><span>{{ datas.0 }}</span></div>
 <div><span>{{ datas.1 }}</span></div>
-        <form action="{% url 'comment' %}" method="post">
+    <div class="coment_task">Комментарий:</div>
+    <div>{{ datas.5 }}</div>
+<form action="{% url 'comment' %}" method="post">
      {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="user_id" value="{{ datas.2 }}">
     <input type="hidden" name="task_id" value="{{ datas.3 }}">
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
-    </p><input value="Комментарий к задаче" type="submit">
+    <input value="Комментарий к задаче" type="submit">
 </form>
-        <form action="/users" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-        <legend>
-            Статус задачи
-        </legend>
+        <form action="{% url 'lk_task' %}" method="get">
 
-            <p><select type="number" name="role" required>
+        <legend>
+            <div class="status_task">Статус задачи</div>
+        </legend>
+            <input type="hidden" name="task_idd" value="{{ datas.3 }}">
+            {% if datas.4 == 1 %}
+            <div class="task_work">В работе</div>
+            {% endif %}
+         {% if datas.4 == 2 %}
+             <div class="task_end">Закончена</div>
+            {% endif %}
+         {% if datas.4 == 3 %}
+            <div class="task_cancellation">Отменена</div>
+            {% endif %}
+            <p><select type="number" name="stat_task" required>
                     <option disabled selected value="" >Статус задачи</option>
                     <option value="1">В работе</option>
                     <option value="2">Закончена</option>
                     <option value="3">Отменена</option>
                   </select></p>
-              <input value="Подтвердить" type="submit" >
+              <input value="Изменить" type="submit" >
         </form>
 {% endfor %}
     </body>

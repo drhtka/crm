@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ lk_email }}</title>
+    <style>
+    .coment {
+    color: green; /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+   .term {
+    border-bottom: 1px dashed red; /* Подчеркивание под текстом */
+   }
+    </style>
 </head>
 <body>
 <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
@@ -25,8 +34,6 @@
       <option disabled selected value="" >Выберите </option>
           {% for task_list_users_s in task_list_users %}
                     <option value="{{ task_list_users_s.1 }}">{{ task_list_users_s.0 }}</option>
-
-
     {% endfor %} </select></p><input value="Выставить задачу" type="submit" >
 </form>
 {% for datas in data %}
