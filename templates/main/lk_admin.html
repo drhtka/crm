@@ -44,8 +44,31 @@
         <input type="hidden" name="user_id" value="{{ datas.2 }}">
         <input type="hidden" name="task_id" value="{{ datas.3 }}">
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
-    </p><input value="Комментарий к задаче" type="submit">
+     </p><input value="Комментарий к задаче" type="submit">
 </form>
 {% endfor %}
+<table border="2">
+        <tbody>
+            <tr>
+                <td>Номер</td>
+                <td>Название</td>
+                <td>Текст</td>
+                <td>Дата</td>
+                <td>Коментарий</td>
+                <td>Ссылка</td>
+            </tr>
+        <p>{% for all_task_s in all_task %}</p>
+            <tr><td>{{ all_task_s.0 }}</td>
+            <td>{{ all_task_s.2 }}</td>
+            <td>{{ all_task_s.3 }}</td>
+            <td>{{ all_task_s.4 }}</td>
+            <td>{{ all_task_s.5 }}</td>
+            {% comment %}{{ all_task_s.6 }}{% endcomment %}
+            <td><a href="{% url 'taskcard' %}?task={{ all_task_s.2 }}">Подробности задачи</a></td></tr>
+            {% endfor %}
+
+</tbody>
+</table>
+
 </body>
 </html>
