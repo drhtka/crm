@@ -27,9 +27,11 @@ class CreatreTasks(models.Model):
     textarea = models.TextField(max_length=300, blank=True, null=True)
     created = models.DateField('Дата создания', auto_now_add=True, null=True)
     answear = models.TextField('Комментарии', blank=True)
+    status_task = models.IntegerField(blank=True, null=True)
 
     class Meta:
         #managed = True
+        ordering = ('id',)
         db_table = 'createtask'
 
 class Roles(models.Model):

@@ -54,11 +54,15 @@ class LkView(View):
         print(user_id)
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
-        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id')
+        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear')
         print('data')
         print(data)
+        all_task = '' # оинициализировали переменную для избежния ошибок, чтоб не было конфликтов
         if user_role == 1:
             print('Администратор')
+            all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task')
+            print('all_task')
+            print(all_task)
             layout = 'lk_admin.html'
         if user_role == 2:
             print('Бухгалтер')
@@ -75,8 +79,14 @@ class LkView(View):
             layout = 'lk_oper_ktv.html'
         # выбераем имя и id  для передачи в шаблон и создания задачи динамически
         task_list_users = Users.objects.values_list('username', 'id')
-
-        return render(request, 'main/' + layout, context={'lk_email': user_name, 'user_role': user_role, 'task_list_users': task_list_users, 'data': data})
+        #data_comment = CreatreTasks.objects.filter(id_users__contains=user_id).values('answear')
+        #print('data_comment')
+        #print(data_comment)
+        return render(request, 'main/' + layout, context={'lk_email': user_name,
+                                                          'user_role': user_role,
+                                                          'task_list_users': task_list_users,
+                                                          'data': data,
+                                                          'all_task': all_task})
 
     def post(self, request):
         request.session['my_list'] = []
@@ -102,13 +112,22 @@ class LogginView(TemplateView):
         return render(request, 'main/outh.html')
 
 class LkTaskView(View):
+
+    def get(self, request):
+    # статус задачи stat_task
+        CreatreTasks.objects.filter(id=request.GET.get('task_idd')).update(status_task=request.GET.get('stat_task'))
+        # print_stat =
+        #print('print_stat')
+        #print(print_stat)
+        #print(request.GET.get('task_idd'), request.GET.get('stat_task'))
+        return redirect('/lk/')
+
     # запись в базу поставлененой задачи  id=request.POST.get('id_task'),
     def post(self, request):
         test_create = CreatreTasks(id_users=request.POST.get('role'), inputtitle=request.POST.get('title_task'), textarea=request.POST.get('desk_task'))
         test_create.save()
         #print('test_create')
         #print(test_create)
-
         return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
 
 class RolesView(View):
@@ -119,7 +138,8 @@ class RolesView(View):
         rolis_list = Roles.objects.values_list('id_roles', 'roles')
         #print('rolis_list')
         #print(rolis_list)
-        return render(request, 'main/roles.html', {'roles_edit': roles_edit, 'rolis_list': rolis_list})
+        return render(request, 'main/roles.html', {'roles_edit': roles_edit,
+                                                   'rolis_list': rolis_list})
 
     def post(self, request):
         #print('user_hidddd')
@@ -139,12 +159,29 @@ class CommentView(View):
         #print(request.POST.get('comment'))
         #print(request.POST.get('user_id'))
         #print(request.POST.get('task_id'))
-        CreatreTasks.objects.filter(id=request.POST.get('task_id')).update(answear=request.POST.get('comment'))
+        com_create = CreatreTasks.objects.filter(id=request.POST.get('task_id')).update(answear=request.POST.get('comment'))
         #print('com_create')
         #print(com_create)
         #com_create.save()
         return redirect('/lk/')
 
+class TasskCardView(View):
+    # ловим айдишник задачи и выводим все данные о ней
+    def get(self, request):
+        id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task')
+        #print('id_task')
+        #print(id_task)
+        return render(request, 'main/taskcard.html', {'id_task': id_task})
+#answer_comment
+class AnswerCommentView(View):
+    def post(self, request):
+        print('AnswerCommentView')
+        user_lk = (request.session['my_list'])
+        post_comment = request.POST.get('comment')
+        id_task  = request.POST.get('task_idd')
+        print(user_lk, post_comment, )
+        update_coment = CreatreTasks.objects.filter(id=id_task).update()
+        redirect('/')
 
 """class RolesRosView(View):
     template_name = 'main/roles.html'

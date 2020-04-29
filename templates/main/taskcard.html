@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+Пользователь
+<p>Ваш логин: {{ lk_email }}</p>
+<table border="2">
+        <tbody>
+            <tr>
+                <td>Номер</td>
+                <td>Название</td>
+                <td>Текст</td>
+                <td>Дата</td>
+                <td>Коментарий</td>
+                <td>Status</td>
+
+            </tr>
+{% for id_task_s in id_task %}
+    <td>{{ id_task_s.0 }}</td>
+    <td>{{ id_task_s.2 }}</td>
+    <td>{{ id_task_s.3 }}</td>
+    <td>{{ id_task_s.4 }}</td>
+    <td>{{ id_task_s.5 }}</td>
+    <td>
+            {% if id_task_s.6 == 1 %}
+            <div class="task_work">В работе</div>
+            {% endif %}
+         {% if id_task_s.6 == 2 %}
+             <div class="task_end">Закончена</div>
+            {% endif %}
+         {% if id_task_s.6 == 3 %}
+            <div class="task_cancellation">Отменена</div>
+            {% endif %}
+    </td>
+    </tr>
+
+{% endfor %}
+
+</tbody>
+</table>
+<form action="{% url 'answer_comment' %}" method="post">
+     {% csrf_token %}
+        <input type="hidden" name="task_idd" value="{{ id_task.0.0 }}">
+    <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
+     </p><input value="Комментарий к задаче" type="submit">
+</form>
+</body>
+</html>
