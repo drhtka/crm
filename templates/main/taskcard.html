@@ -5,7 +5,28 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Задача</title>
+        <style>
+    .coment {
+    color: green; /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+   .term {
+    border-bottom: 1px dashed red; /* Подчеркивание под текстом */
+   }
+   .task_work {
+    color: green; /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .task_end {
+    color: rgba(7, 72, 241, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .task_cancellation {
+    color: rgba(241, 7, 116, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    </style>
 </head>
 <body>
 Пользователь
@@ -18,7 +39,7 @@
                 <td>Текст</td>
                 <td>Дата</td>
                 <td>Коментарий</td>
-                <td>Status</td>
+                <td>Статус</td>
 
             </tr>
 {% for id_task_s in id_task %}
@@ -28,9 +49,9 @@
     <td>{{ id_task_s.4 }}</td>
     <td>{{ id_task_s.5 }}</td>
     <td>
-            {% if id_task_s.6 == 1 %}
+        {% if id_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
-            {% endif %}
+        {% endif %}
          {% if id_task_s.6 == 2 %}
              <div class="task_end">Закончена</div>
             {% endif %}
@@ -49,6 +70,9 @@
         <input type="hidden" name="task_idd" value="{{ id_task.0.0 }}">
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
      </p><input value="Комментарий к задаче" type="submit">
-</form>
+</form><br>
+<p>{% for id_taskss in id_task %}</p>
+{{ id_taskss.7 }}
+{% endfor %}
 </body>
 </html>

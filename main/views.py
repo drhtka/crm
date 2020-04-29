@@ -60,7 +60,7 @@ class LkView(View):
         all_task = '' # оинициализировали переменную для избежния ошибок, чтоб не было конфликтов
         if user_role == 1:
             print('Администратор')
-            all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task')
+            all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
             print('all_task')
             print(all_task)
             layout = 'lk_admin.html'
@@ -168,36 +168,23 @@ class CommentView(View):
 class TasskCardView(View):
     # ловим айдишник задачи и выводим все данные о ней
     def get(self, request):
-        id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task')
+        id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
         #print('id_task')
         #print(id_task)
         return render(request, 'main/taskcard.html', {'id_task': id_task})
+
 #answer_comment
 class AnswerCommentView(View):
     def post(self, request):
+        #request.session['my_list'] = []
         print('AnswerCommentView')
         user_lk = (request.session['my_list'])
         post_comment = request.POST.get('comment')
-        id_task  = request.POST.get('task_idd')
-        print(user_lk, post_comment, )
-        update_coment = CreatreTasks.objects.filter(id=id_task).update()
-        redirect('/')
+        id_task = request.POST.get('task_idd')
+        print(user_lk)
+        print(post_comment)
+        update_coment = CreatreTasks.objects.filter(id=id_task).update(answear_comment=post_comment)
+        #print(update_coment)
+        print('update_coment')
+        return redirect('/taskcard')
 
-"""class RolesRosView(View):
-    template_name = 'main/roles.html'
-    print('RolessView')
-    def get(self, request):
-        print('user_hidddd')
-        print(request.GET.get('rolless'))
-        print(request.GET.get('user_hid'))
-        print('user_hid')
-        return HttpResponse('role')"""
-    
-"""  class LkView(View):
-    def get(self, request):
-        return render(request, 'main/lk.html')
-
-     for site_users_s in site_users:
-            test = site_users_s
-            print('test')
-            print(test)"""

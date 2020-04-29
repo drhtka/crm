@@ -8,8 +8,24 @@
     color: green; /* Цвет текста */
     font-weight: bold; /* Жирное начертание */
    }
+   .answer_coment {
+    color: #001c80; /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
    .term {
     border-bottom: 1px dashed red; /* Подчеркивание под текстом */
+   }
+   .task_work {
+    color: green; /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .task_end {
+    color: rgba(7, 72, 241, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    .task_cancellation {
+    color: rgba(241, 7, 116, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
    }
     </style>
 </head>
@@ -24,12 +40,13 @@
     {{ form.as_p }}
     <button>Выход</button>
 </form>
+<p>Постваить задачу</p>
 <form action="{% url 'lk_task' %}" method="post">
      {% csrf_token %}
     {{ form.as_p }}
     {% comment %}<p><input type="number" name="id_task"></input></p>{% endcomment %}
-    <p><input type="text" name="title_task" maxlength="30"></input></p>
-    <p><textarea type="text" name="desk_task" maxlength="300" cols="31" rows="5"></textarea></p>
+    <p><input type="text" name="title_task" maxlength="30"></input>название</p>
+    <p><textarea type="text" name="desk_task" maxlength="300" cols="31" rows="5"></textarea>Подробно</p>
       <p><select type="number" name="role" required>
       <option disabled selected value="" >Выберите </option>
           {% for task_list_users_s in task_list_users %}
@@ -55,7 +72,10 @@
                 <td>Текст</td>
                 <td>Дата</td>
                 <td>Коментарий</td>
-                <td>Ссылка</td>
+                <td>Ответ на Коментарий</td>
+                <td>Статус</td>
+                <td>Посмотреть</td>
+
             </tr>
         <p>{% for all_task_s in all_task %}</p>
             <tr><td>{{ all_task_s.0 }}</td>
@@ -63,12 +83,26 @@
             <td>{{ all_task_s.3 }}</td>
             <td>{{ all_task_s.4 }}</td>
             <td>{{ all_task_s.5 }}</td>
+            <td>{{ all_task_s.7 }}</td>
+             <td>{% if  all_task_s.6 == 1 %}
+            <div class="task_work">В работе</div>
+            {% endif %}
+                {% if  all_task_s.6 == 2 %}
+            <div class="task_end">Закончена</div>
+            {% endif %}
+                {% if  all_task_s.6 == 3 %}
+            <div class="task_cancellation">Отменена</div>
+            {% endif %}
+            </td>
             {% comment %}{{ all_task_s.6 }}{% endcomment %}
             <td><a href="{% url 'taskcard' %}?task={{ all_task_s.0 }}">Подробности задачи</a></td></tr>
             {% endfor %}
 
 </tbody>
 </table>
-
+<p>{% for all_taskss in all_task %}</p>
+<p>Коментарий: <div class="coment">{{ all_taskss.5 }}</div></p>
+<p>Ответ на коментарий:<div class="answer_coment">{{ all_taskss.7 }}</div></p>
+<p>{% endfor %}</p>
 </body>
 </html>

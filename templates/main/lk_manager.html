@@ -39,9 +39,9 @@
      {% csrf_token %}
     {{ form.as_p }}
     <button>Выход</button>
-</form>
+</form><br><br>
 {% for datas in data %}
-<div><span>{{ datas.0 }}</span></div>
+<h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
     <div class="coment_task">Комментарий:</div>
     <div>{{ datas.5 }}</div>
@@ -74,8 +74,8 @@
                     <option value="2">Закончена</option>
                     <option value="3">Отменена</option>
                   </select></p>
-              <input value="Изменить" type="submit" >
-        </form>
+              <input value="Изменить статус задачи" type="submit" >
+        </form><br><br>
 {% endfor %}
     </body>
 </html>

@@ -28,6 +28,7 @@ class CreatreTasks(models.Model):
     created = models.DateField('Дата создания', auto_now_add=True, null=True)
     answear = models.TextField('Комментарии', blank=True)
     status_task = models.IntegerField(blank=True, null=True)
+    answear_comment = models.TextField('Ответ', blank=True)
 
     class Meta:
         #managed = True
