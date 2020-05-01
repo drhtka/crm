@@ -61,6 +61,13 @@ class LkView(View):
         if user_role == 1:
             print('Администратор')
             all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
+            for all_task_s in all_task:
+                #print(all_task_s[1])
+                user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')
+                #print(user_id_name)
+                for user_id_name_s in user_id_name:
+                    print(user_id_name_s['username'])
+                    username_lk = user_id_name_s['username']
             print('all_task')
             print(all_task)
             layout = 'lk_admin.html'
@@ -86,7 +93,8 @@ class LkView(View):
                                                           'user_role': user_role,
                                                           'task_list_users': task_list_users,
                                                           'data': data,
-                                                          'all_task': all_task})
+                                                          'all_task': all_task,
+                                                          'username_lk': username_lk})
 
     def post(self, request):
         request.session['my_list'] = []
@@ -169,8 +177,9 @@ class TasskCardView(View):
     # ловим айдишник задачи и выводим все данные о ней
     def get(self, request):
         id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
-        #print('id_task')
-        #print(id_task)
+        for id_task_s in id_task:
+            print('id_task_s')
+            print(id_task_s[1])
         return render(request, 'main/taskcard.html', {'id_task': id_task})
 
 #answer_comment
@@ -186,5 +195,6 @@ class AnswerCommentView(View):
         update_coment = CreatreTasks.objects.filter(id=id_task).update(answear_comment=post_comment)
         #print(update_coment)
         print('update_coment')
-        return redirect('/taskcard')
+        referer = self.request.META.get('HTTP_REFERER')
+        return redirect(referer)
 
