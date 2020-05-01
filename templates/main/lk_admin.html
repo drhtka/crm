@@ -51,7 +51,9 @@
       <option disabled selected value="" >Выберите </option>
           {% for task_list_users_s in task_list_users %}
                     <option value="{{ task_list_users_s.1 }}">{{ task_list_users_s.0 }}</option>
-    {% endfor %} </select></p><input value="Выставить задачу" type="submit" >
+    {% endfor %} </select></p>
+    <input type="date" name="task_date">
+    <input value="Выставить задачу" type="submit" >
 </form>
 {% for datas in data %}
 <div><span>{{ datas.0 }}</span></div>
@@ -104,6 +106,8 @@
 <p>Коментарий: <div class="coment">{{ all_taskss.5 }}</div></p>
 <p>Ответ на коментарий:<div class="answer_coment">{{ all_taskss.7 }}</div></p>
 <p>{% endfor %}</p>
-
+{% for username_lk_s in username_lk %}
+{{ username_lk_s }}
+{% endfor %}
 </body>
 </html>

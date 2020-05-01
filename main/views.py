@@ -61,15 +61,15 @@ class LkView(View):
         if user_role == 1:
             print('Администратор')
             all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
+            final_array = []
             for all_task_s in all_task:
                 #print(all_task_s[1])
                 user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')
-                #print(user_id_name)
-                for user_id_name_s in user_id_name:
-                    print(user_id_name_s['username'])
-                    username_lk = user_id_name_s['username']
-            print('all_task')
-            print(all_task)
+                username_lk = user_id_name[0]['username']
+                tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task_s[7], username_lk]
+                final_array.append(tmp_list)
+            #print('all_task')
+            #print(all_task)
             layout = 'lk_admin.html'
         if user_role == 2:
             print('Бухгалтер')
@@ -94,7 +94,7 @@ class LkView(View):
                                                           'task_list_users': task_list_users,
                                                           'data': data,
                                                           'all_task': all_task,
-                                                          'username_lk': username_lk})
+                                                          'username_lk': username_lk,})
 
     def post(self, request):
         request.session['my_list'] = []
