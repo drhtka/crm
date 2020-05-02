@@ -38,16 +38,16 @@
                 <td>Название</td>
                 <td>Текст</td>
                 <td>Дата</td>
-                <td>Коментарий</td>
+                <td>Пользователь</td>
                 <td>Статус</td>
 
             </tr>
-{% for id_task_s in id_task %}
+{% for id_task_s in final_array %}
     <td>{{ id_task_s.0 }}</td>
     <td>{{ id_task_s.2 }}</td>
     <td>{{ id_task_s.3 }}</td>
     <td>{{ id_task_s.4 }}</td>
-    <td>{{ id_task_s.5 }}</td>
+    <td>{{ id_task_s.8 }}</td>
     <td>
         {% if id_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
@@ -71,8 +71,11 @@
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
      </p><input value="Комментарий к задаче" type="submit">
 </form><br>
-<p>{% for id_taskss in id_task %}</p>
+<p>{{ final_array.0.6 }}</p>
+<p>{{ final_array.0.7 }}</p>
+<p>{{ final_array.0.8 }}</p>
+{% comment %}<p>{% for id_taskss in final_array %}</p>
 {{ id_taskss.7 }}
-{% endfor %}
+{% endfor %}{% endcomment %}
 </body>
 </html>

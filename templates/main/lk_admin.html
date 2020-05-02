@@ -77,9 +77,9 @@
                 <td>Ответ на Коментарий</td>
                 <td>Статус</td>
                 <td>Посмотреть</td>
-
+<td>Пользователь</td>
             </tr>
-        <p>{% for all_task_s in all_task %}</p>
+        <p>{% for all_task_s in final_array %}</p>
             <tr><td>{{ all_task_s.0 }}</td>
             <td>{{ all_task_s.2 }}</td>
             <td>{{ all_task_s.3 }}</td>
@@ -97,12 +97,13 @@
             {% endif %}
             </td>
             {% comment %}{{ all_task_s.6 }}{% endcomment %}
-            <td><a href="{% url 'taskcard' %}?task={{ all_task_s.0 }}">Подробности задачи</a></td></tr>
+            <td><a href="{% url 'taskcard' %}?task={{ all_task_s.0 }}">Подробности задачи</a></td>
+            <td>{{ all_task_s.8 }}</td></tr>
             {% endfor %}
 
 </tbody>
 </table>
-<p>{% for all_taskss in all_task %}</p>
+<p>{% for all_taskss in final_array %}</p>
 <p>Коментарий: <div class="coment">{{ all_taskss.5 }}</div></p>
 <p>Ответ на коментарий:<div class="answer_coment">{{ all_taskss.7 }}</div></p>
 <p>{% endfor %}</p>

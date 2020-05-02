@@ -43,6 +43,7 @@
 {% for datas in data %}
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
+  <div><span>{{ datas.6 }}</span>дата окончания</div>
     <div class="coment_task">Комментарий:</div>
     <div>{{ datas.5 }}</div>
 <form action="{% url 'comment' %}" method="post">
@@ -73,6 +74,7 @@
                     <option value="1">В работе</option>
                     <option value="2">Закончена</option>
                     <option value="3">Отменена</option>
+                    <option value="4">Не выполнена</option>
                   </select></p>
               <input value="Изменить статус задачи" type="submit" >
         </form><br><br>

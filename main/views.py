@@ -54,7 +54,7 @@ class LkView(View):
         print(user_id)
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
-        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear')
+        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear', 'data_dedline')
         print('data')
         print(data)
         all_task = '' # оинициализировали переменную для избежния ошибок, чтоб не было конфликтов
@@ -64,10 +64,12 @@ class LkView(View):
             final_array = []
             for all_task_s in all_task:
                 #print(all_task_s[1])
-                user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')
+                user_id_name = Users.objects.filter(id=all_task_s[1]).values('username') #приравнивем айди к пользователю
                 username_lk = user_id_name[0]['username']
                 tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task_s[7], username_lk]
                 final_array.append(tmp_list)
+                print('final_array')
+                print(final_array)
             #print('all_task')
             #print(all_task)
             layout = 'lk_admin.html'
@@ -94,7 +96,8 @@ class LkView(View):
                                                           'task_list_users': task_list_users,
                                                           'data': data,
                                                           'all_task': all_task,
-                                                          'username_lk': username_lk,})
+                                                          'final_array': final_array,})
+                                                          #'username_lk': username_lk,
 
     def post(self, request):
         request.session['my_list'] = []
@@ -132,7 +135,11 @@ class LkTaskView(View):
 
     # запись в базу поставлененой задачи  id=request.POST.get('id_task'),
     def post(self, request):
-        test_create = CreatreTasks(id_users=request.POST.get('role'), inputtitle=request.POST.get('title_task'), textarea=request.POST.get('desk_task'))
+        test_create = CreatreTasks(id_users=request.POST.get('role'),
+                                   inputtitle=request.POST.get('title_task'),
+                                   textarea=request.POST.get('desk_task'),
+                                   data_dedline=request.POST.get('task_date'),
+                                   status_task=4)
         test_create.save()
         #print('test_create')
         #print(test_create)
@@ -180,7 +187,16 @@ class TasskCardView(View):
         for id_task_s in id_task:
             print('id_task_s')
             print(id_task_s[1])
-        return render(request, 'main/taskcard.html', {'id_task': id_task})
+            final_array = []
+            for all_task_s in id_task:
+                #print(all_task_s[1])
+                user_id_name = Users.objects.filter(id=all_task_s[1]).values('username') #приравнивем айди задачи к пользователю
+                username_lk = user_id_name[0]['username']
+                tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task_s[7], username_lk]
+                final_array.append(tmp_list)
+                print('final_array')
+                print(final_array)
+        return render(request, 'main/taskcard.html', {'id_task': id_task, 'final_array': final_array})
 
 #answer_comment
 class AnswerCommentView(View):
@@ -195,6 +211,6 @@ class AnswerCommentView(View):
         update_coment = CreatreTasks.objects.filter(id=id_task).update(answear_comment=post_comment)
         #print(update_coment)
         print('update_coment')
-        referer = self.request.META.get('HTTP_REFERER')
+        referer = self.request.META.get('HTTP_REFERER')#  вернуться на предыдущую страницу на тот жу урл
         return redirect(referer)
 
