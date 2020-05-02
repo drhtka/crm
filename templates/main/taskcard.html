@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,7 +31,7 @@
 </head>
 <body>
 Пользователь
-<p>Ваш логин: {{ lk_email }}</p>
+<p>Ваш логин: {{ final_array.0.8 }}</p>
 <table border="2">
         <tbody>
             <tr>
@@ -71,11 +72,13 @@
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
      </p><input value="Комментарий к задаче" type="submit">
 </form><br>
-<p>{{ final_array.0.6 }}</p>
+{% comment %}<p>{{ final_array.0.6 }}</p>
 <p>{{ final_array.0.7 }}</p>
-<p>{{ final_array.0.8 }}</p>
-{% comment %}<p>{% for id_taskss in final_array %}</p>
-{{ id_taskss.7 }}
-{% endfor %}{% endcomment %}
+<p>{{ final_array.0.8 }}</p>{% endcomment %}
+<p>{% for id_taskss in final_array %}</p>
+    <p>{{ id_taskss.4 }}</p>
+    <p>{{ id_taskss.8 }}</p>
+    <p>{{ id_taskss.7 }}</p>
+{% endfor %}
 </body>
 </html>

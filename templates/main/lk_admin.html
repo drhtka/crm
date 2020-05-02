@@ -73,19 +73,17 @@
                 <td>Название</td>
                 <td>Текст</td>
                 <td>Дата</td>
-                <td>Пользователь</td>
-                <td>Ответ на Коментарий</td>
                 <td>Статус</td>
                 <td>Посмотреть</td>
-<td>Пользователь</td>
+                <td>Пользователь</td>
             </tr>
         <p>{% for all_task_s in final_array %}</p>
             <tr><td>{{ all_task_s.0 }}</td>
             <td>{{ all_task_s.2 }}</td>
             <td>{{ all_task_s.3 }}</td>
             <td>{{ all_task_s.4 }}</td>
-            <td>{{ all_task_s.5 }}</td>
-            <td>{{ all_task_s.7 }}</td>
+
+
              <td>{% if  all_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
             {% endif %}
@@ -104,7 +102,7 @@
 </tbody>
 </table>
 <p>{% for all_taskss in final_array %}</p>
-<p>Коментарий: <div class="coment">{{ all_taskss.5 }}</div></p>
+<p><div class="coment">Коментарий: {{ all_taskss.5 }}</div></p>
 <p>Ответ на коментарий:<div class="answer_coment">{{ all_taskss.7 }}</div></p>
 <p>{% endfor %}</p>
 {% for username_lk_s in username_lk %}

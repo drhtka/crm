@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +31,7 @@
    }
     </style>
 </head>
+{% block lk %}
 <body>
 <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
@@ -83,4 +85,5 @@
         </form><br><br>
 {% endfor %}
     </body>
+{% endblock %}
 </html>
