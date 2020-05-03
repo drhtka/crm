@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+{% extends 'base_lk.html' %}
+{% load staticfiles %}
+
+{% comment %}  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ lk_email }}</title>
-        <style>
+    <title>{{ lk_email }}</title>      <style>
     .task_work {
     color: green; /* Цвет текста */
     font-weight: bold; /* Жирное начертание */
@@ -28,9 +30,10 @@
     font-size: 20px; /* Размер текста */
     text-shadow: 5px 2px 4px grey; /* Текст текста */
    }
-    </style>
-</head>
+    </style></head>
+
 <body>
+
 <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
 Вы вошли в личный кабинет
@@ -81,6 +84,6 @@
                   </select></p>
               <input value="Изменить статус задачи" type="submit" >
         </form><br><br>
-{% endfor %}
-    </body>
-</html>
+{% endfor %}    </body>
+</html>{% endcomment %}
+

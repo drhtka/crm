@@ -1,12 +1,14 @@
 {% extends 'base_lk.html' %}
-<!DOCTYPE html>
+{% load staticfiles %}
+
+{% comment %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-{% comment %}<p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
+<p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
 Вы вошли в личный кабинет
 <p>Ваш логин: {{ lk_email }}</p>
@@ -27,7 +29,8 @@
     </p><input value="Комментарий к задаче" type="submit">
 </form>
 {% endfor %}
-{% endcomment %}
 </body>
 {% block lk %}{% endblock lk %}
+buh
 </html>
+{% endcomment %}

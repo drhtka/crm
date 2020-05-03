@@ -42,21 +42,21 @@ class LkView(View):
     # вывели имя юзера в лк
     def get(self, request):
         user_lk = (request.session['my_list'])
-        print(user_lk)
+        #print(user_lk)
         lk_email = Users.objects.filter(user_email=user_lk).values_list('username', 'role', 'id')
-        print(lk_email)
+        #print(lk_email)
         #print(lk_email[0]['username'])
         #print(lk_email[0][0], lk_email[0][1])
         user_name = lk_email[0][0]
         user_role = lk_email[0][1]
         user_id = lk_email[0][2]
-        print('user_id')
-        print(user_id)
+        #print('user_id')
+        #print(user_id)
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
         data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear', 'data_dedline')
-        print('data')
-        print(data)
+        #print('data')
+        #print(data)
         all_task = '' # оинициализировали переменную для избежния ошибок, чтоб не было конфликтов
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created', 'answear',
                                                     'status_task', 'answear_comment')
@@ -66,12 +66,12 @@ class LkView(View):
             user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')  # приравнивем айди к пользователю
             username_lk = user_id_name[0]['username']
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
-                        all_task_s[6], all_task_s[7], username_lk]
+                        all_task_s[6], all_task_s[7], username_lk] # здесь соединяем две таблицы
             final_array.append(tmp_list)
-            print('final_array')
-            print(final_array)
+            #print('final_array')
+            #print(final_array)
         if user_role == 1:
-            print('Администратор')
+            #print('Администратор')
             #all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
             #final_array = []
             #for all_task_s in all_task:
@@ -182,13 +182,19 @@ class RolesView(View):
 class CommentView(View):
     # отправка комента в базу
     def post(self, request):
-        print('mayak')
+        #print('mayak')
         #print(request.POST.get('comment'))
         #print(request.POST.get('user_id'))
         #print(request.POST.get('task_id'))
-        com_create = CreatreTasks.objects.filter(id=request.POST.get('task_id')).update(answear=request.POST.get('comment'))
-        #print('com_create')
-        #print(com_create)
+        filter_coment = CreatreTasks.objects.filter(id=request.POST.get('task_id')).values('answear')
+        print('filter_coment')
+        temp_com = (filter_coment[0]['answear'])
+        temp_com = temp_com + ',' + request.POST.get('comment')
+        print(temp_com)
+        com_create = CreatreTasks.objects.filter(id=request.POST.get('task_id'))\
+                                    .update(answear=temp_com)
+        print('com_create')
+        print(com_create)
         #com_create.save()
         return redirect('/lk/')
 
@@ -201,14 +207,22 @@ class TasskCardView(View):
             #print('id_task_s')
             #print(id_task_s[1])
             final_array = []
+            all_task7 = []
             for all_task_s in id_task:
                 #print(all_task_s[1])
                 user_id_name = Users.objects.filter(id=all_task_s[1]).values('username') #приравнивем айди задачи к пользователю
                 username_lk = user_id_name[0]['username']
-                tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task_s[7], username_lk]
+                #x = all_task_s[7]
+
+                for all_task7 in all_task_s[7].split(','):
+                #print('\n '.join(map(str, x)))
+                    print('all_task7')
+                    print(all_task7)
+
+                tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task7, username_lk]
                 final_array.append(tmp_list)
-                #print('final_array')
-                #print(final_array)
+                print('final_array')
+                print(final_array)
         return render(request, 'main/taskcard.html', {'id_task': id_task, 'final_array': final_array})
 
 #answer_comment
@@ -219,17 +233,17 @@ class AnswerCommentView(View):
         post_comment = request.POST.get('comment')
         id_task = request.POST.get('task_idd')
         filter_coment = CreatreTasks.objects.filter(id=id_task).values('answear_comment')
-        print('filter_coment')
-        print(filter_coment[0])
+        #print('filter_coment')
+        #print(filter_coment[0])
         temp_comment = filter_coment[0]['answear_comment']
-        print('temp_comment')
-        print(temp_comment)
+        #print('temp_comment')
+        #print(temp_comment)
         temp_comment = temp_comment + ',' + post_comment
         #print(user_lk)
-        print(post_comment)
+        #print(post_comment)
         update_coment = CreatreTasks.objects.filter(id=id_task).update(answear_comment=temp_comment)
-        print(update_coment)
-        print('update_coment')
+        #print(update_coment)
+        #print('update_coment')
         referer = self.request.META.get('HTTP_REFERER')#  вернуться на предыдущую страницу на тот жу урл
         return redirect(referer)
 

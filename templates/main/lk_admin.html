@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+{% extends 'base_lk.html' %}
+{% load staticfiles %}
+
+{% comment %}    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ lk_email }}</title>
-    <style>
+    <title>{{ lk_email }}</title><style>
     .coment {
     color: green; /* Цвет текста */
     font-weight: bold; /* Жирное начертание */
@@ -27,20 +29,17 @@
     color: rgba(241, 7, 116, 0.91); /* Цвет текста */
     font-weight: bold; /* Жирное начертание */
    }
-    </style>
-</head>
-<body>
-<p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
-<p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
+   .task_no_work {
+    color: rgba(103, 116, 115, 0.91); /* Цвет текста */
+    font-weight: bold; /* Жирное начертание */
+   }
+    </style><body></body></head>{% endcomment %}
+
+
+{% block lk %}
 <p><a href="{% url 'roles' %}"><font color="green">Права пользователей</font></a></p>
-Вы вошли в личный кабинет
-<p>Ваш логин: {{ lk_email }}</p>
-<form action="{% url 'lk' %}" method="post">
-     {% csrf_token %}
-    {{ form.as_p }}
-    <button>Выход</button>
-</form>
-<p>Постваить задачу</p>
+<!-- Выставление задачи -->
+<p>Поставить задачу</p>
 <form action="{% url 'lk_task' %}" method="post">
      {% csrf_token %}
     {{ form.as_p }}
@@ -55,6 +54,19 @@
     <input type="date" name="task_date">
     <input value="Выставить задачу" type="submit" >
 </form>
+<!-- конец Выставление задачи -->
+
+{% comment %}
+<p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
+<p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
+Вы вошли в личный кабинет
+<p>Ваш логин: {{ lk_email }}</p>
+<form action="{% url 'lk' %}" method="post">
+     {% csrf_token %}
+    {{ form.as_p }}
+    <button>Выход</button>
+</form>
+
 {% for datas in data %}
 <div><span>{{ datas.0 }}</span></div>
 <div><span>{{ datas.1 }}</span></div>
@@ -62,10 +74,16 @@
      {% csrf_token %}
         <input type="hidden" name="user_id" value="{{ datas.2 }}">
         <input type="hidden" name="task_id" value="{{ datas.3 }}">
+        <div><span>{{ datas.6 }}: </span>дата окончания</div><br>
+        <div class="coment_task">Комментарий:</div>
+        <div>{{ datas.5 }}</div>
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
      </p><input value="Комментарий к задаче" type="submit">
 </form>
 {% endfor %}
+</html>
+{% endcomment %}
+<!-- Таблица все задачи -->
 <table border="2">
         <tbody>
             <tr>
@@ -82,8 +100,6 @@
             <td>{{ all_task_s.2 }}</td>
             <td>{{ all_task_s.3 }}</td>
             <td>{{ all_task_s.4 }}</td>
-
-
              <td>{% if  all_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
             {% endif %}
@@ -93,6 +109,9 @@
                 {% if  all_task_s.6 == 3 %}
             <div class="task_cancellation">Отменена</div>
             {% endif %}
+             {% if  all_task_s.6 == 4 %}
+             <div class="task_no_work">Не выполнена</div>
+            {% endif %}
             </td>
             {% comment %}{{ all_task_s.6 }}{% endcomment %}
             <td><a href="{% url 'taskcard' %}?task={{ all_task_s.0 }}">Подробности задачи</a></td>
@@ -101,6 +120,8 @@
 
 </tbody>
 </table>
+<!-- конец таблицы все задачи -->
+<!-- кокомментарии-->
 <p>{% for all_taskss in final_array %}</p>
 <p><div class="coment">Коментарий: {{ all_taskss.5 }}</div></p>
 <p>Ответ на коментарий:<div class="answer_coment">{{ all_taskss.7 }}</div></p>
@@ -108,5 +129,6 @@
 {% for username_lk_s in username_lk %}
 {{ username_lk_s }}
 {% endfor %}
-</body>
-</html>
+<!-- конец кокомментарии-->
+{% endblock %}
+
