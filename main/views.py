@@ -35,7 +35,6 @@ class UsersSiteView(View):
         seve_site = Users(username=site_users, user_email=site_email, user_pass=final_ph, role=role_id)# заносим в базу
 
         seve_site.save()
-        #return redirect('/main')
         return render(request, 'main/user.html')
 
 class LkView(View):
