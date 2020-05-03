@@ -52,6 +52,7 @@
                     <option value="{{ task_list_users_s.1 }}">{{ task_list_users_s.0 }}</option>
     {% endfor %} </select></p>
     <input type="date" name="task_date">
+
     <input value="Выставить задачу" type="submit" >
 </form>
 <!-- конец Выставление задачи -->
@@ -84,13 +85,14 @@
 </html>
 {% endcomment %}
 <!-- Таблица все задачи -->
-<table border="2">
+    <table border="2">
         <tbody>
             <tr>
                 <td>Номер</td>
                 <td>Название</td>
                 <td>Текст</td>
-                <td>Дата</td>
+                <td>Дата создания</td>
+                <td>Дата окончания</td>
                 <td>Статус</td>
                 <td>Посмотреть</td>
                 <td>Пользователь</td>
@@ -100,6 +102,7 @@
             <td>{{ all_task_s.2 }}</td>
             <td>{{ all_task_s.3 }}</td>
             <td>{{ all_task_s.4 }}</td>
+            <td>{{ all_task_s.9 }}</td>
              <td>{% if  all_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
             {% endif %}
@@ -130,5 +133,6 @@
 {{ username_lk_s }}
 {% endfor %}
 <!-- конец кокомментарии-->
+
 {% endblock %}
 

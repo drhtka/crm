@@ -59,14 +59,14 @@ class LkView(View):
         #print(data)
         all_task = '' # оинициализировали переменную для избежния ошибок, чтоб не было конфликтов
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created', 'answear',
-                                                    'status_task', 'answear_comment')
+                                                    'status_task', 'answear_comment', 'data_dedline')
         final_array = []
         for all_task_s in all_task:
             # print(all_task_s[1])
             user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')  # приравнивем айди к пользователю
             username_lk = user_id_name[0]['username']
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
-                        all_task_s[6], all_task_s[7], username_lk] # здесь соединяем две таблицы
+                        all_task_s[6], all_task_s[7], username_lk, all_task_s[8]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
             #print('final_array')
             #print(final_array)
@@ -103,12 +103,18 @@ class LkView(View):
         #data_comment = CreatreTasks.objects.filter(id_users__contains=user_id).values('answear')
         #print('data_comment')
         #print(data_comment)
+        import calendar
+        from datetime import datetime
+
+        c = calendar.HTMLCalendar()
+        html_out = c.formatmonth(datetime.today().year, datetime.today().month)
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
                                                           'task_list_users': task_list_users,
                                                           'data': data,
                                                           'all_task': all_task,
-                                                          'final_array': final_array,})
+                                                          'final_array': final_array,
+                                                          'html_out': html_out})
                                                           #'username_lk': username_lk,
 
     def post(self, request):
