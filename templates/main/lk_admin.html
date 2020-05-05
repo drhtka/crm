@@ -37,6 +37,27 @@
 
 
 {% block lk %}
+    <!--datetimepicker-->
+{% comment %}    <link rel="stylesheet" type="text/css" href="/datetimepicker/jquery.datetimepicker.css">
+<script src="/datetimepicker/jquery.js"></script>
+<script src="/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+    <div  class=" date input-group" id="datetimepicker_id_datetime">
+	<input  class=" form-control" id="id_datetime" name="datetime" type="text" required/>
+</div>
+<script>(function () {
+	$(document).ready(function() {
+		$("#id_datetime").datetimepicker();
+	});
+})(jQuery);
+
+datetime = forms.DateTimeField(
+    widget=DateTimePicker(options={
+    'format': '%Y-%m-%d %H:%M',
+    'language': 'en-us',
+}),
+)
+</script>{% endcomment %}
+    <!--datetimepicker-->
 <p><a href="{% url 'roles' %}"><font color="green">Права пользователей</font></a></p>
 <!-- Выставление задачи -->
 <p>Поставить задачу</p>
@@ -135,5 +156,29 @@
 <!-- конец кокомментарии-->
     {{ html_out|safe }}
 <h1>dedline {{ final_array.0.10 }}</h1>
+
+
+    <p>mayak {{ form.date }}</p>
+<!--start datetimepicker--><!---->
+    <div id="datetimepicker3"></div>
+    <p><input id="datetimepicker" type="text" ></p>
+
+    <script>
+$(function () {
+    $("#datetimepicker3").datetimepicker({
+      format: 'd/m/Y H:i',
+      inline:true,
+      lang:'ru'
+    });
+  }); {% comment %} {{ form.date }}
+jQuery('#datetimepicker3').datetimepicker({
+  format:'d.m.Y H:i',
+  inline:true,
+  language:'ru-ru'
+});{% endcomment %}
+
+    </script>
+
+    <!--end datetimepicker-->
 {% endblock %}
 

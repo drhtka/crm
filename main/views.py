@@ -141,16 +141,6 @@ class LkView(View):
             layout = 'lk_oper_ktv.html'
         # выбераем имя и id  для передачи в шаблон и создания задачи динамически
         task_list_users = Users.objects.values_list('username', 'id')
-        #data_comment = CreatreTasks.objects.filter(id_users__contains=user_id).values('answear')
-        #print('data_comment')
-        #print(data_comment)
-        import calendar
-        from datetime import datetime
-
-        c = calendar.HTMLCalendar()
-        html_out = c.formatmonth(datetime.today().year, datetime.today().month)
-        #from datetime import datetime
-
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
@@ -158,8 +148,8 @@ class LkView(View):
                                                           'data': data,
                                                           'all_task': all_task,
                                                           'final_array': final_array,
-                                                          'html_out': html_out})
-                                                          #'username_lk': username_lk,
+                                                          })
+                                                          #'html_out': html_out'username_lk': username_lk,
 
     def post(self, request):
         request.session['my_list'] = []
