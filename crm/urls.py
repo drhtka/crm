@@ -14,13 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+
 #from main.views import MainPageView
 #from main.views import LogginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
+    #re_path(r'^datetimepicker/', include('datetimepicker.urls')),
 #    path('loggin/', LogginView.as_view(), name='loggin'),
 
 

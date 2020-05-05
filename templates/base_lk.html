@@ -1,11 +1,16 @@
-{% extends 'base_lk.html' %}
 {% load staticfiles %}
-
-{% comment %}  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ lk_email }}</title>      <style>
+    <title>{{ lk_email }}</title>
+     <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+{% comment %}        <style>
     .task_work {
     color: green; /* Цвет текста */
     font-weight: bold; /* Жирное начертание */
@@ -30,7 +35,10 @@
     font-size: 20px; /* Размер текста */
     text-shadow: 5px 2px 4px grey; /* Текст текста */
    }
-    </style></head>
+    </style>{% endcomment %}
+   <!-- CSS  -->
+    <link href="{% static "main/css/style.css" %}" rel="stylesheet">
+</head>
 
 <body>
 
@@ -38,6 +46,9 @@
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
 Вы вошли в личный кабинет
 <p>Ваш логин: {{ lk_email }}</p>
+
+{% block lk %}{% endblock %}
+
 <form action="{% url 'lk' %}" method="post">
      {% csrf_token %}
     {{ form.as_p }}
@@ -84,6 +95,16 @@
                   </select></p>
               <input value="Изменить статус задачи" type="submit" >
         </form><br><br>
-{% endfor %}    </body>
-</html>{% endcomment %}
+{% endfor %}
 
+
+  {% comment %}<input id="datetimepicker" type="text">{% endcomment %}
+<script>
+    $(function () {
+      $("#datetimepicker").datetimepicker();
+    });
+
+  </script>
+    </body>
+
+</html>
