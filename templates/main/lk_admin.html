@@ -102,7 +102,7 @@
             <td>{{ all_task_s.2 }}</td>
             <td>{{ all_task_s.3 }}</td>
             <td>{{ all_task_s.4 }}</td>
-            <td>{{ all_task_s.9 }}</td>
+            <td style="color: {{ all_task_s.10 }}">{{ all_task_s.9 }}</td>
              <td>{% if  all_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
             {% endif %}
@@ -133,6 +133,7 @@
 {{ username_lk_s }}
 {% endfor %}
 <!-- конец кокомментарии-->
-
+    {{ html_out|safe }}
+<h1>dedline {{ final_array.0.10 }}</h1>
 {% endblock %}
 
