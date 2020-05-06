@@ -30,6 +30,7 @@ class CreatreTasks(models.Model):
     answear = models.TextField('Комментарии', blank=True)
     status_task = models.IntegerField(blank=True, null=True)
     answear_comment = models.TextField('Ответ', blank=True)
+    time_task = models.TextField('Время выполнения', blank=True)
 
     class Meta:
         #managed = True

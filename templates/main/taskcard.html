@@ -40,8 +40,8 @@
                 <td>Текст</td>
                 <td>Дата</td>
                 <td>Пользователь</td>
+                <td>Потраченное время</td>
                 <td>Статус</td>
-
             </tr>
 {% for id_task_s in final_array %}
     <td>{{ id_task_s.0 }}</td>
@@ -49,6 +49,7 @@
     <td>{{ id_task_s.3 }}</td>
     <td>{{ id_task_s.4 }}</td>
     <td>{{ id_task_s.8 }}</td>
+    <td>{{ id_task_s.9 }}</td>
     <td>
         {% if id_task_s.6 == 1 %}
             <div class="task_work">В работе</div>
@@ -81,5 +82,6 @@
     <p>{{ id_taskss.8 }}</p>
     <p>{{ id_taskss.7 }}</p>
 {% endfor %}
+{{ final_array.0.7 }}
 </body>
 </html>

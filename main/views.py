@@ -45,8 +45,8 @@ class LkView(View):
     def get(self, request):
         from datetime import datetime
         user_lk = (request.session['my_list'])
-        print('user_lk')
-        print(user_lk)
+        #print('user_lk')
+        #print(user_lk)
         lk_email = Users.objects.filter(user_email=user_lk).values_list('username', 'role', 'id')
         #print(lk_email)
         #print(lk_email[0]['username'])
@@ -65,14 +65,14 @@ class LkView(View):
         #print(data)
         all_task = '' # оинициализировали переменную для избежния ошибок, чтоб не было конфликтов
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created', 'answear',
-                                                    'status_task', 'answear_comment', 'data_dedline')
+                                                    'status_task', 'answear_comment', 'data_dedline', 'time_task')
         final_array = []
         for all_task_s in all_task:
-            print('data_dedline')
-            print(all_task_s[8])
+            #print('data_dedline')
+            #print(all_task_s[8])
             tmp_dedline = all_task_s[8].split('-')
-            print('tmp_dedline')
-            print(tmp_dedline)
+            #print('tmp_dedline')
+            #print(tmp_dedline)
             year = tmp_dedline[0]
             month = tmp_dedline[1]
             day = tmp_dedline[2]
@@ -82,31 +82,32 @@ class LkView(View):
 
             if (day[0] == '0'):
                 day = day[1]
-            print(year, month, day)
+            #print(year, month, day)
             now = datetime.now()
 
             deadline = datetime(2020, int(month), int(day))
-            print(now)
-            print(deadline)
-            print('deadline')
-            color_task = 'green'
+            #print(now)
+            #print(deadline)
+            #print('deadline')
+            #color_task = 'green'
             if now > deadline:
-                print("Срок сдачи проекта прошел")
+                #print("Срок сдачи проекта прошел")
                 color_task = 'brown'
             else:
                 period = deadline - now
-                print(period.days)
+                #print(period.days)
                 if period.days == 0:
-                    print("Срок сдачи проекта сегодня")
+                    #print("Срок сдачи проекта сегодня")
                     color_task = 'red'
                 else:
-                    print("Осталось {} дней".format(period.days))
+                    #print("Осталось {} дней".format(period.days))
                     color_task = 'green'
-
+            print('all_task_s[9]')
+            print(all_task_s[9])
             user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')  # приравнивем айди к пользователю
             username_lk = user_id_name[0]['username']
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
-                        all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task] # здесь соединяем две таблицы
+                        all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
             #print('final_array')
             #print(final_array)
@@ -225,13 +226,16 @@ class CommentView(View):
         #print(request.POST.get('comment'))
         #print(request.POST.get('user_id'))
         #print(request.POST.get('task_id'))
+        time_tisk = request.POST.get('time_tisk')
+        print('post_time')
+        print(time_tisk)
         filter_coment = CreatreTasks.objects.filter(id=request.POST.get('task_id')).values('answear')
         print('filter_coment')
         temp_com = (filter_coment[0]['answear'])
         temp_com = temp_com + ',' + request.POST.get('comment')
         print(temp_com)
         com_create = CreatreTasks.objects.filter(id=request.POST.get('task_id'))\
-                                    .update(answear=temp_com)
+                                    .update(answear=temp_com, time_task=time_tisk)
         print('com_create')
         print(com_create)
         #com_create.save()
@@ -240,8 +244,8 @@ class CommentView(View):
 class TasskCardView(View):
     # ловим айдишник задачи и выводим все данные о ней
     def get(self, request):
-        id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
-        print(id_task)
+        id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment', 'time_task')
+       # print(id_task)
         for id_task_s in id_task:
             #print('id_task_s')
             #print(id_task_s[1])
@@ -251,35 +255,34 @@ class TasskCardView(View):
                 #print(all_task_s[1])
                 user_id_name = Users.objects.filter(id=all_task_s[1]).values('username') #приравнивем айди задачи к пользователю
                 username_lk = user_id_name[0]['username']
-                #x = all_task_s[7]
+                x = all_task_s[7]
+                print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+                print(x)
 
                 for all_task7 in all_task_s[7].split(','):
                 #print('\n '.join(map(str, x)))
                     print('all_task7')
                     print(all_task7)
 
-                tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task7, username_lk]
+                tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3],
+                            all_task_s[4], all_task_s[5], all_task_s[6], all_task7, username_lk, all_task_s[8]]
                 final_array.append(tmp_list)
-                print('final_array')
-                print(final_array)
+                #print('final_array')
+                #print(final_array)
         return render(request, 'main/taskcard.html', {'id_task': id_task, 'final_array': final_array})
 
 #answer_comment
 class AnswerCommentView(View):
+    #print('answer')
     def post(self, request):
-        #request.session['my_list'] = []
-        #user_lk = (request.session['my_list'])
         post_comment = request.POST.get('comment')
+        #print('post_comment')
+        #print(post_comment)
+
         id_task = request.POST.get('task_idd')
         filter_coment = CreatreTasks.objects.filter(id=id_task).values('answear_comment')
-        #print('filter_coment')
-        #print(filter_coment[0])
         temp_comment = filter_coment[0]['answear_comment']
-        #print('temp_comment')
-        #print(temp_comment)
         temp_comment = temp_comment + ',' + post_comment
-        #print(user_lk)
-        #print(post_comment)
         update_coment = CreatreTasks.objects.filter(id=id_task).update(answear_comment=temp_comment)
         #print(update_coment)
         #print('update_coment')

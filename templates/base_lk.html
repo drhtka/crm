@@ -66,8 +66,11 @@
     <input type="hidden" name="user_id" value="{{ datas.2 }}">
     <input type="hidden" name="task_id" value="{{ datas.3 }}">
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
-    <input value="Комментарий к задаче" type="submit">
+    <div><input name="time_tisk" placeholder="Время выполнения задачи" type="time" ><input type="submit" value="Отправить"></div>
+    <div><input value="Комментарий к задаче" type="submit"></div>
 </form>
+{% comment %} time task {% endcomment %}
+
         <form action="{% url 'lk_task' %}" method="get">
 
         <legend>
@@ -94,14 +97,18 @@
                     <option value="4">Не выполнена</option>
                   </select></p>
               <input value="Изменить статус задачи" type="submit" >
-        </form><br><br>
+        </form>
 {% endfor %}
 
 
   {% comment %}<input id="datetimepicker" type="text">{% endcomment %}
 <script>
     $(function () {
-      $("#datetimepicker").datetimepicker();
+        $.datetimepicker.setLocale('ru')
+      $("#datetimepicker").datetimepicker({
+          format:'Y-m-d'
+      });
+
     });
 
   </script>
