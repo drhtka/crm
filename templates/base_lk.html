@@ -57,7 +57,7 @@
 {% for datas in data %}
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
-  <div><span>{{ datas.6 }}: </span>дата окончания</div><br>
+  <div><span>{{ datas.6 }}: </span>Срок сдачи</div><br>
     <div class="coment_task">Комментарий:</div>
     <div>{{ datas.5 }}</div>
 <form action="{% url 'comment' %}" method="post">
@@ -66,8 +66,11 @@
     <input type="hidden" name="user_id" value="{{ datas.2 }}">
     <input type="hidden" name="task_id" value="{{ datas.3 }}">
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
-    <div><input name="time_tisk" placeholder="Время выполнения задачи" type="time" ><input type="submit" value="Отправить"></div>
-    <div><input value="Комментарий к задаче" type="submit"></div>
+    {% if datas.4 != 2 %}
+      <div><input name="time_tisk" placeholder="Время выполнения задачи" type="time" ><input type="submit" value="Отправить"></div>
+      <div><input value="Комментарий к задаче" type="submit"></div>
+    {% endif %}
+
 </form>
 {% comment %} time task {% endcomment %}
 
@@ -76,12 +79,14 @@
         <legend>
             <div class="status_task">Статус задачи</div>
         </legend>
+
             <input type="hidden" name="task_idd" value="{{ datas.3 }}">
             {% if datas.4 == 1 %}
             <div class="task_work">В работе</div>
             {% endif %}
          {% if datas.4 == 2 %}
              <div class="task_end">Закончена</div>
+             <div>Потрачено времени {{ datas.7 }}</div>
             {% endif %}
          {% if datas.4 == 3 %}
             <div class="task_cancellation">Отменена</div>
@@ -89,6 +94,7 @@
                  {% if datas.4 == 4 %}
             <div class="task_cancellation">Не выполнена</div>
             {% endif %}
+            {% if datas.4 != 2 %}
             <p><select type="number" name="stat_task" required>
                     <option disabled selected value="" >Статус задачи</option>
                     <option value="1">В работе</option>
@@ -96,7 +102,9 @@
                     <option value="3">Отменена</option>
                     <option value="4">Не выполнена</option>
                   </select></p>
+
               <input value="Изменить статус задачи" type="submit" >
+        {% endif %}
         </form>
 {% endfor %}
 

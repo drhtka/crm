@@ -67,6 +67,18 @@
 
 </tbody>
 </table>
+<form method="post" action="{% url 'taskcard' %}">
+         {% csrf_token %}
+    <input type="hidden" name="id_state_task" value="{{ final_array.0.0 }}">
+            <p><select type="number" name="stat_task" required>
+                    <option disabled selected value="" >Статус задачи</option>
+                    <option value="1">В работе</option>
+                    <option value="2">Закончена</option>
+                    <option value="3">Отменена</option>
+                    <option value="4">Не выполнена</option>
+                  </select></p>
+              <input value="Изменить статус задачи" type="submit" >
+</form>
 <form action="{% url 'answer_comment' %}" method="post">
      {% csrf_token %}
         <input type="hidden" name="task_idd" value="{{ id_task.0.0 }}">
@@ -82,6 +94,6 @@
     <p>{{ id_taskss.8 }}</p>
     <p>{{ id_taskss.7 }}</p>
 {% endfor %}
-{{ final_array.0.7 }}
+
 </body>
 </html>
