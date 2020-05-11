@@ -1,6 +1,7 @@
 {% load staticfiles %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{{ lk_email }}</title>
@@ -54,12 +55,15 @@
     {{ form.as_p }}
     <button>Выход</button>
 </form><br><br>
+
 {% for datas in data %}
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
   <div><span>{{ datas.6 }}: </span>Срок сдачи</div><br>
     <div class="coment_task">Комментарий:</div>
-    <div>{{ datas.5 }}</div>
+    {% for data05_s in data05 %}
+        <p>{{ data05_s }}</p>
+    {% endfor %}
 <form action="{% url 'comment' %}" method="post">
      {% csrf_token %}
     {{ form.as_p }}
@@ -68,8 +72,9 @@
     <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
     {% if datas.4 != 2 %}
       <div><input name="time_tisk" placeholder="Время выполнения задачи" type="time" ><input type="submit" value="Отправить"></div>
-      <div><input value="Комментарий к задаче" type="submit"></div>
-    {% endif %}
+
+    <div><input value="Комментарий к задаче" type="submit"></div>
+{% endif %}
 
 </form>
 {% comment %} time task {% endcomment %}

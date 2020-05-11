@@ -1,12 +1,15 @@
 import hashlib
 import datetime
+
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 # -*- coding: utf-8 -*-
 # Create your views here.
 from django.views.generic.base import View, TemplateView
-
 from main.models import Users, CreatreTasks, Roles
+from .forms import UploadFileForm
+#from somewhere import where #handle_uploaded_file
 
 
 class MainPageView(View):
@@ -62,7 +65,14 @@ class LkView(View):
         layout = ''
         data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear', 'data_dedline', 'time_task')
         #print('data')
-        #print(data)
+        #print(data[0][5].split(','))
+        comment_task = []
+        for data05 in data[0][5].split(','):
+            # коменты не в строчку а в столбик
+            print('data05')
+            print(data05)
+            comment_task.append(data05)
+
         all_task = '' # инициализировали переменную для избежния ошибок, чтоб не было конфликтов
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created', 'answear',
                                                     'status_task', 'answear_comment', 'data_dedline', 'time_task')
@@ -102,29 +112,16 @@ class LkView(View):
                 else:
                     #print("Осталось {} дней".format(period.days))
                     color_task = 'green'
-            print('all_task_s[9]')
-            print(all_task_s[9])
+            #print('all_task_s[9]')
+            #print(all_task_s[9])
             user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')  # приравнивем айди к пользователю
             username_lk = user_id_name[0]['username']
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
                         all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
-            #print('final_array')
-            #print(final_array)
+            print('final_array')
+            print(final_array)
         if user_role == 1:
-            #print('Администратор')
-            #all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment')
-            #final_array = []
-            #for all_task_s in all_task:
-                #print(all_task_s[1])
-            #    user_id_name = Users.objects.filter(id=all_task_s[1]).values('username') #приравнивем айди к пользователю
-            #    username_lk = user_id_name[0]['username']
-            #    tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5], all_task_s[6], all_task_s[7], username_lk]
-            #    final_array.append(tmp_list)
-            #    print('final_array')
-            #    print(final_array)
-            #print('all_task')
-            #print(all_task)
             layout = 'lk_admin.html'
         if user_role == 2:
             print('Бухгалтер')
@@ -148,6 +145,7 @@ class LkView(View):
                                                           'data': data,
                                                           'all_task': all_task,
                                                           'final_array': final_array,
+                                                          'data05': comment_task,
                                                           })
                                                           #'html_out': html_out'username_lk': username_lk,
 
@@ -187,6 +185,14 @@ class LkTaskView(View):
 
     # запись в базу поставлененой задачи  id=request.POST.get('id_task'),
     def post(self, request):
+        print(request.POST.get('input_file'))
+        # upload file
+        myfile = request.FILES['input_file']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        print(uploaded_file_url)
+
         test_create = CreatreTasks(id_users=request.POST.get('role'),
                                    inputtitle=request.POST.get('title_task'),
                                    textarea=request.POST.get('desk_task'),

@@ -1,67 +1,14 @@
 {% extends 'base_lk.html' %}
 {% load staticfiles %}
-
-{% comment %}    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ lk_email }}</title><style>
-    .coment {
-    color: green; /* Цвет текста */
-    font-weight: bold; /* Жирное начертание */
-   }
-   .answer_coment {
-    color: #001c80; /* Цвет текста */
-    font-weight: bold; /* Жирное начертание */
-   }
-   .term {
-    border-bottom: 1px dashed red; /* Подчеркивание под текстом */
-   }
-   .task_work {
-    color: green; /* Цвет текста */
-    font-weight: bold; /* Жирное начертание */
-   }
-    .task_end {
-    color: rgba(7, 72, 241, 0.91); /* Цвет текста */
-    font-weight: bold; /* Жирное начертание */
-   }
-    .task_cancellation {
-    color: rgba(241, 7, 116, 0.91); /* Цвет текста */
-    font-weight: bold; /* Жирное начертание */
-   }
-   .task_no_work {
-    color: rgba(103, 116, 115, 0.91); /* Цвет текста */
-    font-weight: bold; /* Жирное начертание */
-   }
-    </style><body></body></head>{% endcomment %}
-
+{% load i18n %}
 
 {% block lk %}
-    <!--datetimepicker-->
-{% comment %}    <link rel="stylesheet" type="text/css" href="/datetimepicker/jquery.datetimepicker.css">
-<script src="/datetimepicker/jquery.js"></script>
-<script src="/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <div  class=" date input-group" id="datetimepicker_id_datetime">
-	<input  class=" form-control" id="id_datetime" name="datetime" type="text" required/>
-</div>
-<script>(function () {
-	$(document).ready(function() {
-		$("#id_datetime").datetimepicker();
-	});
-})(jQuery);
 
-datetime = forms.DateTimeField(
-    widget=DateTimePicker(options={
-    'format': '%Y-%m-%d %H:%M',
-    'language': 'en-us',
-}),
-)
-</script>{% endcomment %}
     <!--datetimepicker-->
 <p><a href="{% url 'roles' %}"><font color="green">Права пользователей</font></a></p>
 <!-- Выставление задачи -->
 <p>Поставить задачу</p>
-<form action="{% url 'lk_task' %}" method="post">
+<form action="{% url 'lk_task' %}" enctype="multipart/form-data" method="post">
      {% csrf_token %}
     {{ form.as_p }}
     {% comment %}<p><input type="number" name="id_task"></input></p>{% endcomment %}
@@ -75,6 +22,8 @@ datetime = forms.DateTimeField(
     <input type="date" name="task_date">
 
     <input value="Выставить задачу" type="submit" >
+<!-- Загрузить текстовый файл -->
+    <p><input type="file" name="input_file" accept="text/*"></p>
 </form>
 <!-- конец Выставление задачи -->
 
@@ -157,11 +106,8 @@ datetime = forms.DateTimeField(
 <div>{{ username_lk_s }}</div>
 {% endfor %}
 <!-- конец кокомментарии-->
-    {{ html_out|safe }}
-<h1>dedline {{ final_array.0.10 }}</h1>
-hello world
 
-    <p>mayak {{ form.date }}</p>
+    <p>Календарь {{ form.date }}</p>
 <!--start datetimepicker--><!---->
     <div id="datetimepicker3"></div>
     <p><input id="datetimepicker" type="text" ></p>

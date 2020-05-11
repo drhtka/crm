@@ -6,6 +6,11 @@ from django import forms
 class DateForm(forms.Form):
     date = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])
 
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
+
 """
 class SampleForm(forms.Form):
     datetimepicker_without_script_tag = forms.DateTimeField(
