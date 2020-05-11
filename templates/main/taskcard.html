@@ -43,27 +43,31 @@
                 <td>Потраченное время</td>
                 <td>Статус</td>
             </tr>
-{% for id_task_s in final_array %}
-    <td>{{ id_task_s.0 }}</td>
-    <td>{{ id_task_s.2 }}</td>
-    <td>{{ id_task_s.3 }}</td>
-    <td>{{ id_task_s.4 }}</td>
-    <td>{{ id_task_s.8 }}</td>
-    <td>{{ id_task_s.9 }}</td>
+{% comment %}{% for id_task_s in final_array %}{% endfor %}{% endcomment %}
+    <tr>
+    <td>{{ final_array.0.0 }}</td>
+    <td>{{ final_array.0.2 }}</td>
+    <td>{{ final_array.0.3 }}</td>
+    <td>{{ final_array.0.4 }}</td>
+    <td>{{ final_array.0.8 }}</td>
+    <td>{{ final_array.0.9 }}</td>
     <td>
-        {% if id_task_s.6 == 1 %}
+        {% if final_array.0.6 == 1 %}
             <div class="task_work">В работе</div>
         {% endif %}
-         {% if id_task_s.6 == 2 %}
+         {% if final_array.0.6 == 2 %}
              <div class="task_end">Закончена</div>
             {% endif %}
-         {% if id_task_s.6 == 3 %}
+         {% if final_array.0.6 == 3 %}
             <div class="task_cancellation">Отменена</div>
+            {% endif %}
+            {% if final_array.0.6 == 4 %}
+            <div class="task_cancellation">Не выполнена</div>
             {% endif %}
     </td>
     </tr>
 
-{% endfor %}
+
 
 </tbody>
 </table>
