@@ -55,16 +55,19 @@
     {{ form.as_p }}
     <button>Выход</button>
 </form><br><br>
-
+<form action="{% url 'comment' %}" method="post">
 {% for datas in data %}
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
   <div><span>{{ datas.6 }}: </span>Срок сдачи</div><br>
-    <div class="coment_task">Комментарий:</div>
-    {% for data05_s in data05 %}
-        <p>{{ data05_s }}</p>
+    <div class="coment_task">Комментарий для текущей задачи:</div>
+
+    {% comment %}комент из data: {{ datas.5 }}{% endcomment %}
+    {% for general_arr_task_s in general_arr_task%}
+        <p>{{ general_arr_task_s.0 }}</p>
     {% endfor %}
-<form action="{% url 'comment' %}" method="post">
+
+
      {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="user_id" value="{{ datas.2 }}">

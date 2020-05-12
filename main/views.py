@@ -48,8 +48,8 @@ class LkView(View):
     def get(self, request):
         from datetime import datetime
         user_lk = (request.session['my_list'])
-        #print('user_lk')
-        #print(user_lk)
+        print('user_lk')
+        print(user_lk)
         lk_email = Users.objects.filter(user_email=user_lk).values_list('username', 'role', 'id')
         #print(lk_email)
         #print(lk_email[0]['username'])
@@ -63,15 +63,29 @@ class LkView(View):
 
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
-        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear', 'data_dedline', 'time_task')
-        #print('data')
-        #print(data[0][5].split(','))
-        comment_task = []
-        for data05 in data[0][5].split(','):
+        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear', 'data_dedline', 'time_task', 'answear_comment')
+        data_task = CreatreTasks.objects.filter(id_users=user_id).values_list('answear')
+        general_arr_task = []
+        for data_task_s in data_task:
+            print('data_task_s')
+            tmp_data_task = list(data_task_s)
+            print(tmp_data_task[0].split(','))
+            spechial_ar_task = []
+            for data_task_s_s in data_task_s[0].split(','):
+                spechial_ar_task.append(data_task_s_s)
+            general_arr_task.append(spechial_ar_task)
+        print(general_arr_task)
+        print('general_arr_task')
+
+        #comment_task = []
+        #my_data = 'data'
+        #for data05 in data[0][5].split(','):
             # коменты не в строчку а в столбик
-            print('data05')
-            print(data05)
-            comment_task.append(data05)
+            #print('data05')
+            #print(data05)
+            #comment_task.append(data05)
+        #print('comment_task')
+        #print(comment_task)
 
         all_task = '' # инициализировали переменную для избежния ошибок, чтоб не было конфликтов
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created', 'answear',
@@ -119,8 +133,8 @@ class LkView(View):
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
                         all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
-            print('final_array')
-            print(final_array)
+            #print('final_array')
+            #print(final_array[0][7])
         if user_role == 1:
             layout = 'lk_admin.html'
         if user_role == 2:
@@ -145,9 +159,9 @@ class LkView(View):
                                                           'data': data,
                                                           'all_task': all_task,
                                                           'final_array': final_array,
-                                                          'data05': comment_task,
+                                                          'general_arr_task': general_arr_task,
                                                           })
-                                                          #'html_out': html_out'username_lk': username_lk,
+                                                          #''html_out': html_out'username_lk': username_lk,
 
     def post(self, request):
         request.session['my_list'] = []
@@ -159,7 +173,8 @@ class LogginView(TemplateView):
     def post(self, request):
         hashed_password = hashlib.md5(request.POST.get('pass').encode())
         final_ph = hashed_password.hexdigest()
-        find_user = Users.objects.filter(user_email=request.POST.get('loggin'), user_pass=final_ph).values('user_email')
+        find_user = Users.objects.filter(user_email=request.POST.get('loggin'),
+                                         user_pass=final_ph).values('user_email')
         #request.session['my_list'] = []
         if len(find_user) > 0:
             #request.session.get('find_us')
@@ -188,20 +203,31 @@ class LkTaskView(View):
         print(request.POST.get('input_file'))
         # upload file
         myfile = request.FILES['input_file']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        print(uploaded_file_url)
+        myfile_split = str(myfile).split('.') # .png
 
-        test_create = CreatreTasks(id_users=request.POST.get('role'),
-                                   inputtitle=request.POST.get('title_task'),
-                                   textarea=request.POST.get('desk_task'),
-                                   data_dedline=request.POST.get('task_date'),
-                                   status_task=4)
-        test_create.save()
-        #print('test_create')
-        #print(test_create)
-        return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
+        if myfile_split[1] != 'txt':
+            return HttpResponse('Формат файла не txt <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
+        else:
+
+            print(myfile_split)
+            print(myfile_split[1])
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            print('myfile')
+            print(myfile)
+            print(uploaded_file_url)
+
+            test_create = CreatreTasks(id_users=request.POST.get('role'),
+                                       inputtitle=request.POST.get('title_task'),
+                                       textarea=request.POST.get('desk_task'),
+                                       data_dedline=request.POST.get('task_date'),
+                                       status_task=4,
+                                       upload_file_name=myfile)
+            test_create.save()
+            #print('test_create')
+            #print(test_create)
+            return HttpResponse('Задача поставлена  <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
 
 class RolesView(View):
     #смена ролей на шаблоне из выпадающего списка

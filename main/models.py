@@ -31,6 +31,7 @@ class CreatreTasks(models.Model):
     status_task = models.IntegerField(blank=True, null=True)
     answear_comment = models.TextField('Ответ', blank=True)
     time_task = models.TextField('Время выполнения', blank=True)
+    upload_file_name = models.TextField('Время выполнения', blank=True)
 
     class Meta:
         #managed = True
