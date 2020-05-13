@@ -50,7 +50,8 @@ class LkView(View):
         user_lk = (request.session['my_list'])
         print('user_lk')
         print(user_lk)
-        lk_email = Users.objects.filter(user_email=user_lk).values_list('username', 'role', 'id')
+        lk_email = Users.objects.filter(user_email=user_lk).values_list('username',
+                                                                        'role', 'id')
         #print(lk_email)
         #print(lk_email[0]['username'])
         #print(lk_email[0][0], lk_email[0][1])
@@ -63,7 +64,15 @@ class LkView(View):
 
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
-        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle', 'textarea', 'id_users', 'id', 'status_task', 'answear', 'data_dedline', 'time_task', 'answear_comment')
+        data = CreatreTasks.objects.filter(id_users=user_id).values_list('inputtitle',
+                                                                         'textarea',
+                                                                         'id_users',
+                                                                         'id',
+                                                                         'status_task',
+                                                                         'answear',
+                                                                         'data_dedline',
+                                                                         'time_task',
+                                                                         'answear_comment')
         data_task = CreatreTasks.objects.filter(id_users=user_id).values_list('answear')
         general_arr_task = []
         for data_task_s in data_task:
@@ -74,8 +83,8 @@ class LkView(View):
             for data_task_s_s in data_task_s[0].split(','):
                 spechial_ar_task.append(data_task_s_s)
             general_arr_task.append(spechial_ar_task)
-        print(general_arr_task)
-        print('general_arr_task')
+        #print(general_arr_task)
+        #print('general_arr_task')
 
         #comment_task = []
         #my_data = 'data'
@@ -88,9 +97,12 @@ class LkView(View):
         #print(comment_task)
 
         all_task = '' # инициализировали переменную для избежния ошибок, чтоб не было конфликтов
-        all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle', 'textarea', 'created', 'answear',
-                                                    'status_task', 'answear_comment', 'data_dedline', 'time_task')
+        all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle',
+                                                    'textarea', 'created', 'answear',
+                                                    'status_task', 'answear_comment',
+                                                    'data_dedline', 'time_task')
         final_array = []
+        i = 0
         for all_task_s in all_task:
             #print('data_dedline')
             #print(all_task_s[8])
@@ -130,9 +142,12 @@ class LkView(View):
             #print(all_task_s[9])
             user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')  # приравнивем айди к пользователю
             username_lk = user_id_name[0]['username']
+            #print(general_arr_task[i])
+            print('general_arr_task')
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
                         all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
+            #i = i + 1
             #print('final_array')
             #print(final_array[0][7])
         if user_role == 1:
@@ -160,6 +175,7 @@ class LkView(View):
                                                           'all_task': all_task,
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
+                                                          'i': i,
                                                           })
                                                           #''html_out': html_out'username_lk': username_lk,
 
@@ -203,27 +219,32 @@ class LkTaskView(View):
         print(request.POST.get('input_file'))
         # upload file
         myfile = request.FILES['input_file']
-        myfile_split = str(myfile).split('.') # .png
+        myfile_split = str(myfile).split('.') #отсекаем все что по точки например .png
 
         if myfile_split[1] != 'txt':
             return HttpResponse('Формат файла не txt <a href="http://127.0.0.1:8000/lk/">Личный кабинет</a>')
         else:
+            #если .txt тогда загрузить
+            #print(myfile_split)
+            #print(myfile_split[1])
+            last_id_task = CreatreTasks.objects.latest('id').id + 1  # вывели последний айди
 
-            print(myfile_split)
-            print(myfile_split[1])
             fs = FileSystemStorage()
-            filename = fs.save(myfile.name, myfile)
+            filename = fs.save(str(last_id_task)+'.txt', myfile)
             uploaded_file_url = fs.url(filename)
-            print('myfile')
-            print(myfile)
-            print(uploaded_file_url)
+            #print('myfile')
+            #print(myfile)
+            #print(uploaded_file_url)
+
+            #print(last_id_task.id+1)
+
 
             test_create = CreatreTasks(id_users=request.POST.get('role'),
                                        inputtitle=request.POST.get('title_task'),
                                        textarea=request.POST.get('desk_task'),
                                        data_dedline=request.POST.get('task_date'),
                                        status_task=4,
-                                       upload_file_name=myfile)
+                                       upload_file_name=str(last_id_task)+'.txt')
             test_create.save()
             #print('test_create')
             #print(test_create)

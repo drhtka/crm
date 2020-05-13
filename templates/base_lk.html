@@ -1,5 +1,7 @@
 {% load staticfiles %}
 {% load i18n %}
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -56,16 +58,21 @@
     <button>Выход</button>
 </form><br><br>
 <form action="{% url 'comment' %}" method="post">
+
 {% for datas in data %}
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
   <div><span>{{ datas.6 }}: </span>Срок сдачи</div><br>
     <div class="coment_task">Комментарий для текущей задачи:</div>
 
-    {% comment %}комент из data: {{ datas.5 }}{% endcomment %}
-    {% for general_arr_task_s in general_arr_task%}
-        <p>{{ general_arr_task_s.0 }}</p>
+    комент из data: {{ datas.5 }}
+
+
+    {% comment %}    {{ general_arr_task.0 }}
+    {% for general_arr_task_s in general_arr_task.i %}
+        <p>{{ general_arr_task_s }}</p>
     {% endfor %}
+   {% endcomment %}
 
 
      {% csrf_token %}
