@@ -60,9 +60,15 @@
 <form action="{% url 'comment' %}" method="post">
 
 {% for datas in data %}
+
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
   <div><span>{{ datas.6 }}: </span>Срок сдачи</div><br>
+    <div>
+        {% if datas.9 %}
+            прикрепленный файл: <a href="http://127.0.0.1:8000/media/{{ datas.9 }}">скачать</a>
+        {% endif %}
+        </div>
     <div class="coment_task">Комментарий для текущей задачи:</div>
 
     комент из data: {{ datas.5 }}

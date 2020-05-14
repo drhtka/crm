@@ -106,7 +106,10 @@
 <div>{{ username_lk_s }}</div>
 {% endfor %}
 <!-- конец кокомментарии-->
-
+{% with total=222222 %}
+    {{ total }} employee{{ total|pluralize }}
+    {% with total=23 %}{% endwith %}
+{% endwith %}
     <p>Календарь {{ form.date }}</p>
 <!--start datetimepicker--><!---->
     <div id="datetimepicker3"></div>

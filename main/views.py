@@ -72,7 +72,8 @@ class LkView(View):
                                                                          'answear',
                                                                          'data_dedline',
                                                                          'time_task',
-                                                                         'answear_comment')
+                                                                         'answear_comment',
+                                                                         'upload_file_name')
         data_task = CreatreTasks.objects.filter(id_users=user_id).values_list('answear')
         general_arr_task = []
         for data_task_s in data_task:
@@ -100,7 +101,8 @@ class LkView(View):
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle',
                                                     'textarea', 'created', 'answear',
                                                     'status_task', 'answear_comment',
-                                                    'data_dedline', 'time_task')
+                                                    'data_dedline', 'time_task',
+                                                    'upload_file_name')
         final_array = []
         i = 0
         for all_task_s in all_task:
@@ -145,7 +147,7 @@ class LkView(View):
             #print(general_arr_task[i])
             print('general_arr_task')
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
-                        all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9]] # здесь соединяем две таблицы
+                        all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9], all_task_s[10]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
             #i = i + 1
             #print('final_array')
@@ -167,6 +169,7 @@ class LkView(View):
             layout = 'lk_oper_ktv.html'
         # выбераем имя и id  для передачи в шаблон и создания задачи динамически
         task_list_users = Users.objects.values_list('username', 'id')
+        # выбираем для подсчета времени затраченную на задачу
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
