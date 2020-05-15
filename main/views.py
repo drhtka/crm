@@ -171,19 +171,34 @@ class LkView(View):
         # выбираем имя и id  для передачи в шаблон и создания задачи динамически
         task_list_users = Users.objects.values_list('username', 'id')
         # выбираем для подсчета времени затраченную на задачу
-        task_time_all = CreatreTasks.objects.values_list('id_users', 'status_task', 'time_task')
-        users_time_count = Users.objects.values_list('id', 'username')
-        #print('task_time_all, users_time_count')
-        #print(task_time_all, users_time_count)
+        #task_time_all = CreatreTasks.objects.filter(status_task=2).values_list('id_users', 'status_task', 'time_task')
+        #users_time_count = Users.objects.values_list('id', 'username')
+        users_distinct_task = CreatreTasks.objects.filter(status_task=2).values('id_users').order_by('id_users').distinct('id_users')
+        print('tusers_distinct_task')
+        print(users_distinct_task)
         sum_time_users = []
-        for task_time_all_s in task_time_all:
-            for users_time_count_s in users_time_count:
-                tmp_sum_tme = [task_time_all_s[0], task_time_all_s[1], task_time_all_s[2], users_time_count_s[0], users_time_count_s[1]]
-                sum_time_users.append(tmp_sum_tme)
+        sum_time_users2 = []
+
+        for users_distinct_task_s in users_distinct_task:
+            #print('users_distinct_task_s')
+            #print(users_distinct_task_s['id_users'])
+            u_distr = users_distinct_task_s['id_users']# номера пользователей которые выполнили задачи
+            user_time_task = CreatreTasks.objects.filter(status_task=2).filter(id_users=u_distr).values_list('time_task')# все часы котрые потратил польз на выполнение задачи
+            #print('user_time_task')
+            #print(user_time_task)
+            time_task_us = 0
+            for user_time_task_s in user_time_task:
+                print('user_time_task_s')
+                print(user_time_task_s[0])
+        #for task_time_all_s in task_time_all:
+
+            #for users_time_count_s in users_time_count:
+                #tmp_sum_tme = [task_time_all_s[0], task_time_all_s[1], task_time_all_s[2], users_time_count_s[0], users_time_count_s[1]]
+                #sum_time_users.append(tmp_sum_tme)
                 #for sum_time_users_s in sum_time_users:
 
-                print('sum_time_users')
-                print(sum_time_users)
+                #print('sum_time_users')
+                #print(sum_time_users)
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
                                                           'task_list_users': task_list_users,
@@ -192,9 +207,9 @@ class LkView(View):
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
                                                           'i': i,
-                                                          'sum_time_users': sum_time_users,
+
                                                           })
-                                                          #''html_out': html_out'username_lk': username_lk,
+                                                          #'sum_time_users': sum_time_users,''html_out': html_out'username_lk': username_lk,
 
     def post(self, request):
         request.session['my_list'] = []
