@@ -145,7 +145,7 @@ class LkView(View):
             user_id_name = Users.objects.filter(id=all_task_s[1]).values('username')  # приравнивем айди к пользователю
             username_lk = user_id_name[0]['username']
             #print(general_arr_task[i])
-            print('general_arr_task')
+            #print('general_arr_task')
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
                         all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9], all_task_s[10]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
@@ -167,10 +167,23 @@ class LkView(View):
             print(data)
             print('Оператор ктв')
             layout = 'lk_oper_ktv.html'
-        # выбераем имя и id  для передачи в шаблон и создания задачи динамически
+
+        # выбираем имя и id  для передачи в шаблон и создания задачи динамически
         task_list_users = Users.objects.values_list('username', 'id')
         # выбираем для подсчета времени затраченную на задачу
+        task_time_all = CreatreTasks.objects.values_list('id_users', 'status_task', 'time_task')
+        users_time_count = Users.objects.values_list('id', 'username')
+        #print('task_time_all, users_time_count')
+        #print(task_time_all, users_time_count)
+        sum_time_users = []
+        for task_time_all_s in task_time_all:
+            for users_time_count_s in users_time_count:
+                tmp_sum_tme = [task_time_all_s[0], task_time_all_s[1], task_time_all_s[2], users_time_count_s[0], users_time_count_s[1]]
+                sum_time_users.append(tmp_sum_tme)
+                #for sum_time_users_s in sum_time_users:
 
+                print('sum_time_users')
+                print(sum_time_users)
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
                                                           'task_list_users': task_list_users,
@@ -179,6 +192,7 @@ class LkView(View):
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
                                                           'i': i,
+                                                          'sum_time_users': sum_time_users,
                                                           })
                                                           #''html_out': html_out'username_lk': username_lk,
 

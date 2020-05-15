@@ -96,6 +96,24 @@
 </tbody>
 </table>
 <!-- конец таблицы все задачи -->
+    <!--Таблица время на задачи-->
+        <table border="2">
+        <tbody>
+            <tr>
+                <td>Доолжность</td>
+                <td>статус</td>
+                <td>потраченное время</td>
+            </tr>
+        <p>{% for sum_time_users_s in sum_time_users %}</p>
+            <tr><td>{{ sum_time_users_s.4 }}</td>
+            <td>{{ sum_time_users_s.1 }}</td>
+            <td>{{ sum_time_users_s.2 }}</td>
+
+            {% endfor %}
+
+</tbody>
+</table>
+ <!-- конец таблицы время на задачи -->
 <!-- кокомментарии-->
 <p>{% for all_taskss in final_array %}</p>
 <p><div class="coment">Коментарий: {{ all_taskss.5 }}</div></p>
