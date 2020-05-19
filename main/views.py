@@ -176,28 +176,51 @@ class LkView(View):
         #print(users_distinct_task)
         sum_time_users = []
         sum_time_users2 = []
-
+        all_array = []
         for users_distinct_task_s in users_distinct_task:
             u_distr = users_distinct_task_s['id_users']# номера пользователей которые выполнили задачи
             user_time_task = CreatreTasks.objects.filter(status_task=2).filter(id_users=u_distr).values_list('time_task')# все часы котрые потратил польз на выполнение задачи
             time_task_us = 0
+            arr_time_user = []
+            tmp_time = 0
+            tmp_username = ''
+
             for user_time_task_s in user_time_task:
                 time_task_us = str(u_distr) + ',' + user_time_task_s[0]
-                #print('time_task_us')
+
                 id_user_count = time_task_us.split(',')[0]
                 time_task_all = time_task_us.split(',')[1]
-                #print(sum_time_users, sum_time_users2)
                 id_user_count = Users.objects.filter(id=id_user_count).values('username')
                 #print('id_user_count')
                 #print(id_user_count)
                 id_user_count_name = id_user_count[0]['username']
-                sum_time_users = [id_user_count_name, time_task_all]
-                print('sum_time_users')
-                print(sum_time_users)
-
-
-
-
+                tmp_object = [id_user_count_name, time_task_all]
+                arr_time_user.append(tmp_object)
+                #print('tmp_username')
+                #print(tmp_username)
+                time_task_all = time_task_all.split(':')
+                time_task_h = time_task_all[0]
+                time_task_m = int(time_task_all[1]) / 60
+                time_task_all_all = int(time_task_h) + time_task_m
+                #print('time_task_all_all')
+                #print(time_task_all_all)
+                #sum_time_users = [id_user_count_name, (time_task_all_all)]
+                #print('sum_time_users ')
+                #print(sum_time_users )
+            my_sum = ''
+            tmp_ar2 = []
+            tmp_ar3 = [id_user_count_name, '']
+            print('tmp_ar3')
+            print(tmp_ar3)
+            for arr_time_user_s in arr_time_user:
+                my_sum = my_sum + ',' + arr_time_user_s[1]
+                tmp_ar3[1]=my_sum
+            #print('tmp_ar3')
+            #print(tmp_ar3)
+            all_array.append(tmp_ar3)
+        print('all_array')
+        print(all_array)
+                for
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
