@@ -101,14 +101,13 @@
         <tbody>
             <tr>
                 <td>Доолжность</td>
-                <td>статус</td>
                 <td>потраченное время</td>
+                <td>оплата в час</td>
             </tr>
-        <p>{% for sum_time_users_s in sum_time_users %}</p>
-            <tr><td>{{ sum_time_users_s.4 }}</td>
-            <td>{{ sum_time_users_s.1 }}</td>
-            <td>{{ sum_time_users_s.2 }}</td>
-
+        <p>{% for all_array_end_s in all_array_end %}</p>
+            <tr><td>{{ all_array_end_s.0 }}</td>
+            <td>{{ all_array_end_s.1 }}</td>
+            <td>оплата в час</td>
             {% endfor %}
 
 </tbody>

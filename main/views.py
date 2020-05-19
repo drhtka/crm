@@ -104,7 +104,7 @@ class LkView(View):
                                                     'data_dedline', 'time_task',
                                                     'upload_file_name')
         final_array = []
-        i = 0
+        #i = 0
         for all_task_s in all_task:
             #print('data_dedline')
             #print(all_task_s[8])
@@ -210,17 +210,34 @@ class LkView(View):
             my_sum = ''
             tmp_ar2 = []
             tmp_ar3 = [id_user_count_name, '']
-            print('tmp_ar3')
-            print(tmp_ar3)
+            #print('tmp_ar3')
+            #print(tmp_ar3)
             for arr_time_user_s in arr_time_user:
                 my_sum = my_sum + ',' + arr_time_user_s[1]
                 tmp_ar3[1]=my_sum
             #print('tmp_ar3')
             #print(tmp_ar3)
             all_array.append(tmp_ar3)
-        print('all_array')
-        print(all_array)
-                for
+        #print('all_array')
+        #print(all_array)
+        all_array_end = []
+        for all_array_s in all_array:
+            split_time = all_array_s[1].split(',')
+            hours = 0
+            minuts = 0
+            our_time = 0
+            all_array_time = [all_array_s[0], '']
+            for split_time_s in split_time:
+                if split_time_s != '': #36 min 28 urok
+                    split_two = split_time_s.split(':')
+                    hours = int(hours) + int(split_two[0])
+                    minuts = int(minuts) + round(int(split_two[1]) / 60)
+                    our_time = hours + minuts
+                    all_array_time[1] = our_time
+            all_array_end.append(all_array_time)
+            print('all_array_end')
+            print(all_array_end)
+
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
@@ -229,7 +246,8 @@ class LkView(View):
                                                           'all_task': all_task,
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
-                                                          'i': i,
+                                                          'all_array_end': all_array_end,
+
                                                           })
 
     def post(self, request):
