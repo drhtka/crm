@@ -226,7 +226,7 @@ class LkView(View):
             hours = 0
             minuts = 0
             our_time = 0
-            all_array_time = [all_array_s[0], '']
+            all_array_time = [all_array_s[0], '', '']
             for split_time_s in split_time:
                 if split_time_s != '': #36 min 28 urok
                     split_two = split_time_s.split(':')
@@ -234,21 +234,12 @@ class LkView(View):
                     minuts = int(minuts) + round(int(split_two[1]) / 60)
                     our_time = hours + minuts
                     all_array_time[1] = our_time
-
+                    zp_user = Users.objects.filter(username=all_array_time[0]).values_list('zp')
+                    all_zp = our_time * int(zp_user[0][0])
+                    all_array_time[2] = all_zp
             all_array_end.append(all_array_time)
             print('all_array_end')
             print(all_array_end)
-
-            for all_array_end_s in all_array_end:
-                user_for_zp = all_array_end_s[0]
-
-            zp_user = Users.objects.filter(username=user_for_zp).values_list('zp')
-            for zp_user_s in zp_user:
-
-                print('zp_user')
-                print(zp_user_s)
-
-
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,

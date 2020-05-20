@@ -7,15 +7,12 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
 class Users(models.Model):
     username = models.CharField(max_length=255, blank=True, null=True)
     user_email = models.CharField(max_length=30, blank=True, null=True)
     user_pass = models.CharField(max_length=30, blank=True, null=True)
     role = models.IntegerField(blank=True, null=True)
     zp = models.TextField('Зарплата', blank=True)
-    #test = models.TextField(max_length=255, blank=True, null=True)
-    #test2 = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         #managed = True
@@ -33,7 +30,6 @@ class CreatreTasks(models.Model):
     answear_comment = models.TextField('Ответ', blank=True)
     time_task = models.TextField('Время выполнения', blank=True)
     upload_file_name = models.TextField('Время выполнения', blank=True)
-
 
     class Meta:
         #managed = True

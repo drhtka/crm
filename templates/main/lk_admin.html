@@ -102,12 +102,12 @@
             <tr>
                 <td>Доолжность</td>
                 <td>потраченное время</td>
-                <td>оплата в час</td>
+                <td>оплата грн</td>
             </tr>
         <p>{% for all_array_end_s in all_array_end %}</p>
-            <tr><td>{{ all_array_end_s.0 }}</td>
-            <td>{{ all_array_end_s.1 }}</td>
-            <td>оплата в час</td>
+            <tr><td align="center">{{ all_array_end_s.0 }}</td>
+            <td align="center">{{ all_array_end_s.1 }}</td>
+            <td align="center">{{ all_array_end_s.2 }}</td>
             {% endfor %}
 
 </tbody>
