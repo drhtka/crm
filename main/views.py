@@ -234,9 +234,20 @@ class LkView(View):
                     minuts = int(minuts) + round(int(split_two[1]) / 60)
                     our_time = hours + minuts
                     all_array_time[1] = our_time
+
             all_array_end.append(all_array_time)
             print('all_array_end')
             print(all_array_end)
+
+            for all_array_end_s in all_array_end:
+                user_for_zp = all_array_end_s[0]
+
+            zp_user = Users.objects.filter(username=user_for_zp).values_list('zp')
+            for zp_user_s in zp_user:
+
+                print('zp_user')
+                print(zp_user_s)
+
 
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
@@ -247,6 +258,7 @@ class LkView(View):
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
                                                           'all_array_end': all_array_end,
+                                                          #'zp_user': zp_user,
 
                                                           })
 
