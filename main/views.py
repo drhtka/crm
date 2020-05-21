@@ -84,18 +84,7 @@ class LkView(View):
             for data_task_s_s in data_task_s[0].split(','):
                 spechial_ar_task.append(data_task_s_s)
             general_arr_task.append(spechial_ar_task)
-        #print(general_arr_task)
-        #print('general_arr_task')
 
-        #comment_task = []
-        #my_data = 'data'
-        #for data05 in data[0][5].split(','):
-            # коменты не в строчку а в столбик
-            #print('data05')
-            #print(data05)
-            #comment_task.append(data05)
-        #print('comment_task')
-        #print(comment_task)
 
         all_task = '' # инициализировали переменную для избежния ошибок, чтоб не было конфликтов
         all_task = CreatreTasks.objects.values_list('id', 'id_users', 'inputtitle',

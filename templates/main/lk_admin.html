@@ -128,9 +128,11 @@
     {% with total=23 %}{% endwith %}
 {% endwith %}
     <p>Календарь {{ form.date }}</p>
-<!--start datetimepicker--><!---->
-    <div id="datetimepicker3"></div>
+<!--start datetimepicker<div id="datetimepicker3"<input id="datetimepicker3">></div>--><!---->
+
+
     <p><input id="datetimepicker" type="text" ></p>
+    <button type="button" id="select_date">Выбрать день</button>
 
     <script>
 $(function () {
@@ -139,6 +141,15 @@ $(function () {
       inline:true,
       lang:'ru'
     });
+    let my_date = document.getElementById('datetimepicker')
+    my_date.onchange = function () {
+    console.log(this)
+}
+select_date.onclick = function () {
+    alert(123)
+ let my_date = document.getElementById('datetimepicker')
+    console.log(my_date.value)
+}
   }); {% comment %} {{ form.date }}
 jQuery('#datetimepicker3').datetimepicker({
   format:'d.m.Y H:i',
