@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 # -*- coding: utf-8 -*-
 # Create your views here.
 from django.views.generic.base import View, TemplateView
-from main.models import Users, CreatreTasks, Roles
+from main.models import Users, CreatreTasks, Roles, DayTask
 from .forms import UploadFileForm
 #from somewhere import where #handle_uploaded_file
 
@@ -418,8 +418,12 @@ class AjaxCalView(View):
     def get(self, request):
         ajax_data = request.GET.get('date')
         split_ajax_data = ajax_data.split('-')
-        print(split_ajax_data[2])
+        ajax_data_data = split_ajax_data[2]
+        print('ajax_data')
+        print(ajax_data_data)
         ajax_user = request.session['my_list']
         #print(ajax_data, ajax_user, request.session)
-
+        calc_task_user = DayTask.objects.filter(user_email_calc=ajax_user).filter(day_task__contains=ajax_data_data).values('day_task')
+        print('calc_task_user')
+        print(calc_task_user)
         return HttpResponse('123 ')

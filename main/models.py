@@ -55,6 +55,7 @@ class DayTask(models.Model):
     iduser = models.TextField(blank=True, null=True)
     tascs = models.TextField(max_length=30, blank=True, null=True)
     day_task = models.TextField(max_length=30, blank=True, null=True)
+    user_email_calc = models.CharField(max_length=30, blank=True, null=True)
     class Meta:
         #managed = True
         db_table = 'daytask'
