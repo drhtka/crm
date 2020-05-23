@@ -241,7 +241,7 @@ class LkView(View):
                                                           #'zp_user': zp_user,
 
                                                           })
-
+    #выход
     def post(self, request):
         request.session['my_list'] = []
         return redirect('/')
@@ -414,9 +414,12 @@ class AnswerCommentView(View):
         return redirect(referer)
 
 class AjaxCalView(View):
+    # задачи в календаре
     def get(self, request):
         ajax_data = request.GET.get('date')
+        split_ajax_data = ajax_data.split('-')
+        print(split_ajax_data[2])
         ajax_user = request.session['my_list']
-        print(ajax_data, ajax_user, request.session)
+        #print(ajax_data, ajax_user, request.session)
 
         return HttpResponse('123 ')
