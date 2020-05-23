@@ -146,11 +146,31 @@ $(function () {
     console.log(this)
 }
 select_date.onclick = function () {
-    alert(123)
+
  let my_date = document.getElementById('datetimepicker')
     console.log(my_date.value)
+
+   var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText)
+    }
+  };
+  xhttp.open("GET", "/ajaxcalc?date="+my_date.value, true);
+  xhttp.send();
+
 }
-  }); {% comment %} {{ form.date }}
+  });
+
+
+
+{% comment %}  $.ajax({
+        url: 'ajaxcalc',
+        type: 'get',
+        data: {date_date: my_date},
+        success: function (response) {
+        console.log(response)
+        }{{ form.date }}
 jQuery('#datetimepicker3').datetimepicker({
   format:'d.m.Y H:i',
   inline:true,

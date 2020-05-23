@@ -413,20 +413,10 @@ class AnswerCommentView(View):
         referer = self.request.META.get('HTTP_REFERER')#  вернуться на предыдущую страницу на тот жу урл
         return redirect(referer)
 
-"""        now = datetime.now()
-        deadline = datetime(2020, 5, 3)
-        print(now)
-        print(deadline)
-        color_task = 'green'
-        if now > deadline:
-            print("Срок сдачи проекта прошел")
-            color_task = 'brown'
-        else:
-            period = deadline - now
-            print(period.days)
-            if period.days == 0:
-                print("Срок сдачи проекта сегодня")
-                color_task = 'red'
-            else:
-                print("Осталось {} дней".format(period.days))
-                color_task = 'green'""" # вырезал с 151 сстроки перед return
+class AjaxCalView(View):
+    def get(self, request):
+        ajax_data = request.GET.get('date')
+        ajax_user = request.session['my_list']
+        print(ajax_data, ajax_user, request.session)
+
+        return HttpResponse('123 ')

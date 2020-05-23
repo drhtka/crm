@@ -3,7 +3,8 @@
 
 #from django.contrib import admin
 from django.urls import path
-from main.views import MainPageView, UsersSiteView, LogginView, LkView, LkTaskView, RolesView, CommentView, TasskCardView, AnswerCommentView
+from main.views import MainPageView, UsersSiteView, LogginView, LkView, \
+    LkTaskView, RolesView, CommentView, TasskCardView, AnswerCommentView, AjaxCalView
 #app_name = 'index'
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path('comment/', CommentView.as_view(), name='comment'),
     path('taskcard', TasskCardView.as_view(), name='taskcard'),
     path('answer_comment', AnswerCommentView.as_view(), name='answer_comment'),
+    path('ajaxcalc', AjaxCalView.as_view(), name='ajaxcalc'),
 ]
