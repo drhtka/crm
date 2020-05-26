@@ -227,8 +227,8 @@ class LkView(View):
                     all_zp = our_time * int(zp_user[0][0])
                     all_array_time[2] = all_zp
             all_array_end.append(all_array_time)
-            print('all_array_end')
-            print(all_array_end)
+            #print('all_array_end')
+            #print(all_array_end)
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
@@ -423,7 +423,34 @@ class AjaxCalView(View):
         print(ajax_data_data)
         ajax_user = request.session['my_list']
         #print(ajax_data, ajax_user, request.session)
-        calc_task_user = DayTask.objects.filter(user_email_calc=ajax_user).filter(day_task__contains=ajax_data_data).values('day_task')
+        # 26.05.20 # убрал фильтрацию  filter(user_email_calc=ajax_user).
+        calc_task_user = DayTask.objects.filter(user_email_calc=ajax_user).filter(day_task__contains=ajax_data_data).values_list('day_task', 'tascs')
         print('calc_task_user')
         print(calc_task_user)
-        return HttpResponse('123 ')
+        arr_name_tasks = ''
+        for calc_task_user_s in calc_task_user:
+            get_task_name = CreatreTasks.objects.filter(id=calc_task_user_s[1]).values('inputtitle')
+            print('get_task_name')
+            print(get_task_name[0]['inputtitle'])
+            if(arr_name_tasks==''):
+                arr_name_tasks = get_task_name[0]['inputtitle']
+            else:
+                arr_name_tasks = arr_name_tasks + ';' + get_task_name[0]['inputtitle']
+        print('arr_name_tasks')
+        print(arr_name_tasks)
+
+        all_task_day = DayTask.objects.filter(day_task=ajax_data_data).values_list('tascs', 'iduser', 'user_email_calc')
+        print('all_task_day')
+        print(all_task_day)
+        main_arr = []
+        for all_task_day_s in all_task_day:
+            #print('all_task_day_s[0]')
+            #print(all_task_day_s[0])
+            all_task_users_day = CreatreTasks.objects.filter(id=all_task_day_s[0]).values_list('inputtitle')
+            print('all_task_users_day')
+            print(all_task_users_day)
+            main_arr.append([all_task_day_s[2], all_task_users_day[0][0]])
+        print('main_arr')
+        print(main_arr)
+
+        return render(request, 'main/lk_admin.html', context={'arr_name_tasks': arr_name_tasks, 'main_arr': main_arr})

@@ -37,3 +37,7 @@
     color: rgba(103, 116, 115, 0.91); /* Цвет текста */
     font-weight: bold; /* Жирное начертание */
    }
+
+   .body_content{
+        display: flex;
+    }

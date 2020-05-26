@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load i18n %}
 
 
 <!DOCTYPE html>
@@ -41,12 +40,18 @@
     text-shadow: 5px 2px 4px grey; /* Текст текста */
    }
     </style>{% endcomment %}
+
    <!-- CSS  -->
     <link href="{% static "main/css/style.css" %}" rel="stylesheet">
+    <style>
+    .body_content{
+    display: flex;
+    }
+    </style>
 </head>
 
-<body>
-
+<body class="body_content">
+<div id="left_content">
 <p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
 <p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
 Вы вошли в личный кабинет
@@ -131,8 +136,13 @@
         </form>
 {% endfor %}
 
-
+</div>
+<div id="bloc_content">
+    <p><input id="datetimepicker" type="text" ></p>
+    <button type="button" id="select_date">Выбрать день</button>
   {% comment %}<input id="datetimepicker" type="text">{% endcomment %}
+
+</div>
 <script>
     $(function () {
         $.datetimepicker.setLocale('ru')
@@ -143,8 +153,36 @@ $('.xdsoft_date').click(function () {
     alert(123)
 })
     });
+$(function () {
+    $("#datetimepicker3").datetimepicker({
+      format: 'd/m/Y H:i',
+      inline:true,
+      lang:'ru'
+    });
+    let my_date = document.getElementById('datetimepicker')
+    my_date.onchange = function () {
+    console.log(this)
+}
+select_date.onclick = function () {
 
+ let my_date = document.getElementById('datetimepicker')
+    console.log(my_date.value)
+
+   var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText)
+        document.getElementById('bloc_content').innerHTML = this.responseText
+    }
+  };
+
+  xhttp.open("GET", "/ajaxcalc?date="+my_date.value, true);
+  xhttp.send();
+
+}
+  });
   </script>
+
     </body>
 
 </html>

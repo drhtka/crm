@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block lk %}
-
+<body class="body_content">
     <!--datetimepicker-->
 <p><a href="{% url 'roles' %}"><font color="green">Права пользователей</font></a></p>
 <!-- Выставление задачи -->
@@ -100,7 +100,7 @@
         <table border="2">
         <tbody>
             <tr>
-                <td>Доолжность</td>
+                <td>Должность</td>
                 <td>потраченное время</td>
                 <td>оплата грн</td>
             </tr>
@@ -130,13 +130,20 @@
     <p>Календарь {{ form.date }}</p>
 <!--start datetimepicker<div id="datetimepicker3"<input id="datetimepicker3">></div>--><!---->
 
-
+<div id="bloc_content">
     <p><input id="datetimepicker" type="text" ></p>
     <button type="button" id="select_date">Выбрать день</button>
+</div>
 
+    {% for main_arr_s in main_arr %}
+        <div>email:{{ main_arr_s.0 }}</div>
+        <div>название задачи: {{ main_arr_s.1 }} </div>
+    {% endfor %}
+
+{% comment %}
     <script>
 $(function () {
-    $("#datetimepicker3").datetimepicker({
+    $("#datetimepicker").datetimepicker({
       format: 'd/m/Y H:i',
       inline:true,
       lang:'ru'
@@ -150,6 +157,26 @@ select_date.onclick = function () {
  let my_date = document.getElementById('datetimepicker')
     console.log(my_date.value)
 
+
+$.ajax({
+        url: 'ajaxcalc',
+        type: 'get',
+        data: {date_date: my_date},
+        success: function (response) {
+        console.log(response)
+        }{{ form.date }}
+$('#datetimepicker').datetimepicker({
+  format:'d.m.Y H:i',
+  inline:true,
+  language:'ru-ru'
+});
+}
+  });
+
+{% endcomment %}
+
+{% comment %}
+
    var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -158,27 +185,11 @@ select_date.onclick = function () {
   };
   xhttp.open("GET", "/ajaxcalc?date="+my_date.value, true);
   xhttp.send();
-
-}
-  });
-
+</script>
+{% endcomment %}
 
 
-{% comment %}  $.ajax({
-        url: 'ajaxcalc',
-        type: 'get',
-        data: {date_date: my_date},
-        success: function (response) {
-        console.log(response)
-        }{{ form.date }}
-jQuery('#datetimepicker3').datetimepicker({
-  format:'d.m.Y H:i',
-  inline:true,
-  language:'ru-ru'
-});{% endcomment %}
-
-    </script>
-
+</body>
     <!--end datetimepicker-->
 {% endblock %}
 
