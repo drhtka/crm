@@ -161,14 +161,28 @@ $(function () {
     });
     let my_date = document.getElementById('datetimepicker')
     my_date.onchange = function () {
-    console.log(this)
-}
-select_date.onclick = function () {
+        console.log(this)
+    }
+});
+    select_date.onclick = function () {
+        let my_date = document.getElementById('datetimepicker')
+        console.log(my_date.value)
+        $.ajax({
+        url: '/ajaxcalc',
+        type: 'get',
+        data: {date: my_date.value},
+        success: function (response) {
+        console.log(response)
+            $('#bloc_content').html(response)
+        }
+     })
+    }
+</script>
 
- let my_date = document.getElementById('datetimepicker')
-    console.log(my_date.value)
+    </body>
 
-   var xhttp = new XMLHttpRequest();
+</html>
+    {{% comment %} var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText)
@@ -179,10 +193,4 @@ select_date.onclick = function () {
   xhttp.open("GET", "/ajaxcalc?date="+my_date.value, true);
   xhttp.send();
 
-}
-  });
-  </script>
-
-    </body>
-
-</html>
+}{% endcomment %}

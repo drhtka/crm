@@ -453,4 +453,4 @@ class AjaxCalView(View):
         print('main_arr')
         print(main_arr)
 
-        return render(request, 'main/lk_admin.html', context={'arr_name_tasks': arr_name_tasks, 'main_arr': main_arr})
+        return render(request, 'main/lk_ajax.html', context={'arr_name_tasks': arr_name_tasks, 'main_arr': main_arr})
