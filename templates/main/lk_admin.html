@@ -27,33 +27,7 @@
 </form>
 <!-- конец Выставление задачи -->
 
-{% comment %}
-<p><a href="{% url 'main' %}"><font color="green">Главная</font></a></p>
-<p><a href="{% url 'loggin' %}"><font color="green">Авторизация</font></a></p>
-Вы вошли в личный кабинет
-<p>Ваш логин: {{ lk_email }}</p>
-<form action="{% url 'lk' %}" method="post">
-     {% csrf_token %}
-    {{ form.as_p }}
-    <button>Выход</button>
-</form>
 
-{% for datas in data %}
-<div><span>{{ datas.0 }}</span></div>
-<div><span>{{ datas.1 }}</span></div>
-    <form action="{% url 'comment' %}" method="post">
-     {% csrf_token %}
-        <input type="hidden" name="user_id" value="{{ datas.2 }}">
-        <input type="hidden" name="task_id" value="{{ datas.3 }}">
-        <div><span>{{ datas.6 }}: </span>дата окончания</div><br>
-        <div class="coment_task">Комментарий:</div>
-        <div>{{ datas.5 }}</div>
-    <p><textarea type="text" name="comment" maxlength="300" cols="31" rows="5" placeholder="Комментарий"></textarea></p>
-     </p><input value="Комментарий к задаче" type="submit">
-</form>
-{% endfor %}
-</html>
-{% endcomment %}
 <!-- Таблица все задачи -->
     <table border="2">
         <tbody>
@@ -133,10 +107,10 @@
 <div id="bloc_content">
     <p><input id="datetimepicker" type="text" ></p>
     <button type="button" id="select_date">Выбрать день</button>
-</div>
 
+</div>
     {% for main_arr_s in main_arr %}
-        <div>email:{{ main_arr_s.0 }}</div>
+        <div id="email">email:{{ main_arr_s.0 }}</div>
         <div>название задачи: {{ main_arr_s.1 }} </div>
     {% endfor %}
 

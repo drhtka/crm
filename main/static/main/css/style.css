@@ -41,3 +41,10 @@
    .body_content{
         display: flex;
     }
+   #bloc_content{
+       color: blue;
+   }
+   #bloc_content div:first-child{
+       color: red;
+   }
+

@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 
 
 <!DOCTYPE html>
@@ -39,15 +39,15 @@
     font-size: 20px; /* Размер текста */
     text-shadow: 5px 2px 4px grey; /* Текст текста */
    }
+    </style>    <style>
+    .body_content{
+    display: flex;
+    }
     </style>{% endcomment %}
 
    <!-- CSS  -->
     <link href="{% static "main/css/style.css" %}" rel="stylesheet">
-    <style>
-    .body_content{
-    display: flex;
-    }
-    </style>
+
 </head>
 
 <body class="body_content">
@@ -137,6 +137,7 @@
 {% endfor %}
 
 </div>
+<!-- Просмтр задач по выбранной дате в календаре-->
 <div id="bloc_content">
     <p><input id="datetimepicker" type="text" ></p>
     <button type="button" id="select_date">Выбрать день</button>
@@ -150,10 +151,10 @@
           format:'Y-m-d'
       });
 $('.xdsoft_date').click(function () {
-    alert(123)
 })
     });
-$(function () {
+
+/*$(function () {
     $("#datetimepicker3").datetimepicker({
       format: 'd/m/Y H:i',
       inline:true,
@@ -163,7 +164,7 @@ $(function () {
     my_date.onchange = function () {
         console.log(this)
     }
-});
+});*/
     select_date.onclick = function () {
         let my_date = document.getElementById('datetimepicker')
         console.log(my_date.value)
@@ -178,11 +179,11 @@ $(function () {
      })
     }
 </script>
-
+<!-- конец Просмтр задач по выбранной дате в календаре-->
     </body>
 
 </html>
-    {{% comment %} var xhttp = new XMLHttpRequest();
+    {% comment %} var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText)
