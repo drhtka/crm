@@ -59,3 +59,15 @@ class DayTask(models.Model):
     class Meta:
         #managed = True
         db_table = 'daytask'
+
+class Comments(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True, null=False)
+    id_task = models.TextField(max_length=30, blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
+    parent_comment = models.TextField(blank=True, null=True)
+    answear_comment = models.TextField(blank=True, null=True)
+    id_user = models.TextField(max_length=30, blank=True, null=True)
+    id_admin = models.TextField(max_length=30, blank=True, null=True)
+    class Meta:
+        #managed = True
+        db_table = 'comments'

@@ -88,14 +88,14 @@
 </table>
  <!-- конец таблицы время на задачи -->
 <!-- кокомментарии-->
-{% comment %}<p>{% for all_taskss in final_array %}</p>
+<p>{% for all_taskss in final_array %}</p>
 <p><div class="coment">Коментарий: {{ all_taskss.5 }}</div></p>
 <p>Ответ на коментарий:<div class="answer_coment">{{ all_taskss.7 }}</div></p>
-{% endcomment %}
-    {% for new_tsk_tmp_array_s_s in new_tsk_tmp_array_s %}
+
+{% comment %}    {% for new_tsk_tmp_array_s_s in new_tsk_tmp_array_s %}
         <p><div class="coment">Коментарий: {{ new_tsk_tmp_array_s.5 }}</div></p>
 <p>Ответ на коментарий:<div class="answer_coment">{{ new_tsk_tmp_array_s.7 }}</div></p>
-
+{% endcomment %}
 <p>{% endfor %}</p>
 {% for username_lk_s in username_lk %}
 <div>{{ username_lk_s }}</div>

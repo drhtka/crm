@@ -29,7 +29,7 @@
    }
     </style>
 </head>
-<body>
+<h3>
 Пользователь
 <p>Задача для: {{ final_array.0.8 }}</p>
 <table border="2">
@@ -93,10 +93,9 @@
 <p>{{ final_array.0.7 }}</p>
 <p>{{ final_array.0.8 }}</p>{% endcomment %}
 Ответ на Коментарии:
-<p>{% for id_taskss in final_array %}</p>
-    <p>{{ id_taskss.4 }}</p>
-    <p>{{ id_taskss.8 }}</p>
-    <p>{{ id_taskss.7 }}</p>
+<p>{% for final_array_s in final_array %}</p>
+    <h3><font color="green"><p>Ответ Админа: {{ final_array_s.7 }}</p></font></h3>
+
 {% endfor %}
 
 </body>

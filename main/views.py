@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 # -*- coding: utf-8 -*-
 # Create your views here.
 from django.views.generic.base import View, TemplateView
-from main.models import Users, CreatreTasks, Roles, DayTask
+from main.models import Users, CreatreTasks, Roles, DayTask, Comments
 from .forms import UploadFileForm
 #from somewhere import where #handle_uploaded_file
 
@@ -141,11 +141,11 @@ class LkView(View):
             #i = i + 1
             #print('final_array')
             #print(final_array[0][7])
-            new_tsk_tmp_array = final_array[0][7].split(',')
+            #new_tsk_tmp_array = final_array[0][7].split(',')
             #print(new_tsk_tmp_array)
-            for new_tsk_tmp_array_s in new_tsk_tmp_array:
-                print('new_tsk_tmp_array_s')
-                print(new_tsk_tmp_array_s)
+            #for new_tsk_tmp_array_s in new_tsk_tmp_array:
+                #print('new_tsk_tmp_array_s')
+                #print(new_tsk_tmp_array_s)
 
         if user_role == 1:
             layout = 'lk_admin.html'
@@ -159,7 +159,7 @@ class LkView(View):
             print('Оператор интернет')
             layout = 'lk_oper_inet.html'
         if user_role == 5:
-            print(data)
+            #print(data)
             print('Оператор ктв')
             layout = 'lk_oper_ktv.html'
 
@@ -244,8 +244,8 @@ class LkView(View):
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
                                                           'all_array_end': all_array_end,
-                                                          'new_tsk_tmp_array_s': new_tsk_tmp_array_s,
-                                                          #'zp_user': zp_user,
+
+                                                          #'zp_user': zp_user, 'new_tsk_tmp_array_s': new_tsk_tmp_array_s,
 
                                                           })
     #выход
@@ -350,17 +350,27 @@ class CommentView(View):
         #print(request.POST.get('user_id'))
         #print(request.POST.get('task_id'))
         time_tisk = request.POST.get('time_tisk')
-        print('post_time')
-        print(time_tisk)
+        #print('post_time')
+        #print(time_tisk)
         filter_coment = CreatreTasks.objects.filter(id=request.POST.get('task_id')).values('answear')
-        print('filter_coment')
+        #print('filter_coment')
+        #print(filter_coment)
         temp_com = (filter_coment[0]['answear'])
         temp_com = temp_com + ',' + request.POST.get('comment')
-        print(temp_com)
+        #print(temp_com)
         com_create = CreatreTasks.objects.filter(id=request.POST.get('task_id'))\
                                     .update(answear=temp_com, time_task=time_tisk)
-        print('com_create')
-        print(com_create)
+        #print('com_create')
+        #print(com_create)
+        filter_coment_new = Comments.objects.filter(id_task=request.POST.get('task_id')).values('comment')
+        temp_com_new = (filter_coment_new[0]['comment'])
+        temp_com_new = temp_com_new + ',' + request.POST.get('comment')
+        new_comment = Comments.objects.filter(id_task=request.POST.get('task_id')).update(comment=temp_com_new)
+        #print('new_comment')
+        #print(new_comment)
+
+
+
         #com_create.save()
         return redirect('/lk/')
 
@@ -385,8 +395,8 @@ class TasskCardView(View):
                 for all_task7 in all_task_s[7].split(','):
                     #  выводим сколько ушло времени в шаблон
                 #print('\n '.join(map(str, x)))
-                    print('all_task7')
-                    print(all_task7)
+                    #print('all_task7')
+                    #print(all_task7)
                     tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3],
                                 all_task_s[4], all_task_s[5], all_task_s[6], all_task7, username_lk, all_task_s[8]]
                     final_array.append(tmp_list)
@@ -395,16 +405,16 @@ class TasskCardView(View):
         return render(request, 'main/taskcard.html', {'id_task': id_task, 'final_array': final_array})
 
     def post(self, request):
-        print(request.POST.get('id_state_task'), request.POST.get('stat_task'))
-        print('id_state_task')
+        #print(request.POST.get('id_state_task'), request.POST.get('stat_task'))
+        #print('id_state_task')
         CreatreTasks.objects.filter(id=request.POST.get('id_state_task')).update(status_task=request.POST.get('stat_task'))
         referer = self.request.META.get('HTTP_REFERER')
         return redirect(referer)
 
 
-#answer_comment
+
 class AnswerCommentView(View):
-    #print('answer')
+    #answer_comment ответ на комментарий
     def post(self, request):
         post_comment = request.POST.get('comment')
         #print('post_comment')
@@ -417,7 +427,15 @@ class AnswerCommentView(View):
         update_coment = CreatreTasks.objects.filter(id=id_task).update(answear_comment=temp_comment)
         #print(update_coment)
         #print('update_coment')
-        referer = self.request.META.get('HTTP_REFERER')#  вернуться на предыдущую страницу на тот жу урл
+
+        filter_coment_new = Comments.objects.filter(id_task=id_task).values('answear_comment')
+        temp_com_new = (filter_coment_new[0]['answear_comment'])
+        temp_com_new = temp_com_new + ',' + post_comment
+        new_comment = Comments.objects.filter(id_task=id_task).update(answear_comment=temp_com_new)
+        print('new_comment')
+        print(new_comment)
+
+        referer = self.request.META.get('HTTP_REFERER')# вернуться на предыдущую страницу на тот же урл
         return redirect(referer)
 
 class AjaxCalView(View):
