@@ -44,7 +44,11 @@
    #bloc_content{
        color: blue;
    }
-   #bloc_content div:first-child{
+   #bloc_content div>div:first-child{
        color: red;
    }
-
+ .parent_task{
+     display: flex; /**/
+     justify-content: space-between; /*расстягиват по краям*/
+     width: 50%;
+ }

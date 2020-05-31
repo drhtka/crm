@@ -141,6 +141,12 @@ class LkView(View):
             #i = i + 1
             #print('final_array')
             #print(final_array[0][7])
+            new_tsk_tmp_array = final_array[0][7].split(',')
+            #print(new_tsk_tmp_array)
+            for new_tsk_tmp_array_s in new_tsk_tmp_array:
+                print('new_tsk_tmp_array_s')
+                print(new_tsk_tmp_array_s)
+
         if user_role == 1:
             layout = 'lk_admin.html'
         if user_role == 2:
@@ -238,6 +244,7 @@ class LkView(View):
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
                                                           'all_array_end': all_array_end,
+                                                          'new_tsk_tmp_array_s': new_tsk_tmp_array_s,
                                                           #'zp_user': zp_user,
 
                                                           })
