@@ -55,12 +55,13 @@ class LkView(View):
         #print(lk_email)
         #print(lk_email[0]['username'])
         #print(lk_email[0][0], lk_email[0][1])
+        # од коментов делаю привязку к id задачи
+        lk_comment = Comments.objects.filter()
         user_name = lk_email[0][0]
         user_role = lk_email[0][1]
         user_id = lk_email[0][2]
         #print('user_id')
         #print(user_id)
-
 
         data = [] # чтоб не вызывать ошибок для тех кто входит под номером роли
         layout = ''
@@ -74,7 +75,20 @@ class LkView(View):
                                                                          'time_task',
                                                                          'answear_comment',
                                                                          'upload_file_name')
-        data_task = CreatreTasks.objects.filter(id_users=user_id).values_list('answear')
+        data_task = CreatreTasks.objects.filter(id_users=user_id).values_list('answear', 'id')
+        answer_new_comments = Comments.objects.filter(id_task=data[0][1]).values_list('comment')
+        #answer comments
+        id_comment = data
+        print('id_comment')
+        #id_task = id_comment[0][3]
+        #id_task_comment = Comments.objects.filter(id_task=id_task).values('answear_comment')
+        #print('id_task_comment')
+        #id_task_comment = id_task_comment[0]['answear_comment']
+        # comment_card = id_task_comment[0]['answear_comment']
+        # print('comment_card')
+        # print(comment_card)
+        #answer coment end
+
         general_arr_task = []
         for data_task_s in data_task:
             #print('data_task_s')
@@ -92,6 +106,8 @@ class LkView(View):
                                                     'status_task', 'answear_comment',
                                                     'data_dedline', 'time_task',
                                                     'upload_file_name')
+
+
         final_array = []
         #i = 0
         for all_task_s in all_task:
@@ -135,6 +151,7 @@ class LkView(View):
             username_lk = user_id_name[0]['username']
             #print(general_arr_task[i])
             #print('general_arr_task')
+
             tmp_list = [all_task_s[0], all_task_s[1], all_task_s[2], all_task_s[3], all_task_s[4], all_task_s[5],
                         all_task_s[6], all_task_s[7], username_lk, all_task_s[8], color_task, all_task_s[9], all_task_s[10]] # здесь соединяем две таблицы
             final_array.append(tmp_list)
@@ -235,6 +252,9 @@ class LkView(View):
             all_array_end.append(all_array_time)
             #print('all_array_end')
             #print(all_array_end)
+        print('answer_new_comments[0][0]')
+        #print(answer_new_comments[0])
+
 
         return render(request, 'main/' + layout, context={'lk_email': user_name,
                                                           'user_role': user_role,
@@ -244,8 +264,10 @@ class LkView(View):
                                                           'final_array': final_array,
                                                           'general_arr_task': general_arr_task,
                                                           'all_array_end': all_array_end,
+                                                          'answer_new_comments': answer_new_comments,
 
-                                                          #'zp_user': zp_user, 'new_tsk_tmp_array_s': new_tsk_tmp_array_s,
+
+                                                          #'id_task_comment': id_task_comment,'zp_user': zp_user, 'new_tsk_tmp_array_s': new_tsk_tmp_array_s,
 
                                                           })
     #выход
@@ -360,15 +382,17 @@ class CommentView(View):
         #print(temp_com)
         com_create = CreatreTasks.objects.filter(id=request.POST.get('task_id'))\
                                     .update(answear=temp_com, time_task=time_tisk)
-        #print('com_create')
-        #print(com_create)
-        filter_coment_new = Comments.objects.filter(id_task=request.POST.get('task_id')).values('comment')
-        temp_com_new = (filter_coment_new[0]['comment'])
-        temp_com_new = temp_com_new + ',' + request.POST.get('comment')
-        new_comment = Comments.objects.filter(id_task=request.POST.get('task_id')).update(comment=temp_com_new)
-        #print('new_comment')
-        #print(new_comment)
 
+        check_rows = Comments.objects.filter(id_task=request.POST.get('task_id')).values_list('id')
+        print('check_rows')
+        print(check_rows)
+        if (check_rows):
+            print('записи есть')
+            com_create = Comments.objects.filter(id=str(check_rows[0][0])).update(comment=request.POST.get('comment'))
+        else:
+            print('записи нет')
+            save_site = Comments(id_task=request.POST.get('task_id'), comment=request.POST.get('comment'))  # заносим в базу
+            save_site.save(force_insert=True)
 
 
         #com_create.save()
@@ -378,6 +402,7 @@ class TasskCardView(View):
     # ловим айдишник задачи и выводим все данные о ней
     def get(self, request):
         id_task = CreatreTasks.objects.filter(id=request.GET.get('task')).values_list('id', 'id_users', 'inputtitle', 'textarea', 'created',  'answear', 'status_task', 'answear_comment', 'time_task')
+
        # print(id_task)
         for id_task_s in id_task:
             #print('id_task_s')
@@ -428,12 +453,24 @@ class AnswerCommentView(View):
         #print(update_coment)
         #print('update_coment')
 
-        filter_coment_new = Comments.objects.filter(id_task=id_task).values('answear_comment')
-        temp_com_new = (filter_coment_new[0]['answear_comment'])
-        temp_com_new = temp_com_new + ',' + post_comment
-        new_comment = Comments.objects.filter(id_task=id_task).update(answear_comment=temp_com_new)
-        print('new_comment')
-        print(new_comment)
+        #filter_coment_new = Comments.objects.filter(id_task=id_task).values('answear_comment')
+        #temp_com_new = (filter_coment_new[0]['answear_comment'])
+        #temp_com_new = temp_com_new + ',' + post_comment
+        #new_comment = Comments.objects.filter(id_task=id_task).update(answear_comment=temp_com_new)
+        # правильный варик
+        #new_comment_task = Comments.objects.filter(id_task=)
+        #b4 = Comments(id_task=id_task, comment=post_comment)
+        #b4.save()
+        #print('new_comment')
+        #print(new_comment)
+
+        #Comments.save([id_task=id_task, comment=post_comment])
+        #Comments.id_task = id_task
+        #Comments.comment = post_comment
+        #Comments.save()
+        #save_site = Comments()
+        save_site = Comments(id_task=id_task, comment=post_comment)  # заносим в базу
+        save_site.save(force_insert=True)
 
         referer = self.request.META.get('HTTP_REFERER')# вернуться на предыдущую страницу на тот же урл
         return redirect(referer)

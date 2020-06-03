@@ -66,7 +66,6 @@
 <form action="{% url 'comment' %}" method="post">
 
 {% for datas in data %}
-
 <h3><div><span>{{ datas.0 }}</span></div></h3>
 <div><span>{{ datas.1 }}</span></div>
   <div><span>{{ datas.6 }}: </span>Срок сдачи</div><br>
@@ -76,17 +75,14 @@
         {% endif %}
         </div>
     <div class="coment_task">Комментарий для текущей задачи:</div>
-
-    <p>комент из data: {{ datas.5 }}</p>
-    <p>ответ из data: {{ datas.8 }}</p>
-
-
+    <span>{{ answer_new_comments.0 }}</span>
+    {% comment %}<p>комент из data: {{ datas.5 }}</p>
+    <p>ответ из data: {{ datas.8 }}</p>{% endcomment %}
     {% comment %}    {{ general_arr_task.0 }}
     {% for general_arr_task_s in general_arr_task.i %}
         <p>{{ general_arr_task_s }}</p>
     {% endfor %}
    {% endcomment %}
-
 
      {% csrf_token %}
     {{ form.as_p }}
@@ -180,6 +176,7 @@ $('.xdsoft_date').click(function () {
     }
 </script>
 <!-- конец Просмтр задач по выбранной дате в календаре-->
+
     </body>
 
 </html>
