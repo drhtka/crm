@@ -1,10 +1,10 @@
 # crm
- - Django==2.2
- - Pillow==7.0.0
- - psycopg2-binary==2.8.4
+ - asgiref==3.2.3
+ - Django==2.2.10
+ - psycopg2-binary==2.8.5
  - pytz==2019.3
  - sqlparse==0.3.0
- - Query
+ - CBV
  - BD PostgresQL
 
 
